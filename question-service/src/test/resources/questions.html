@@ -1,0 +1,2091 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>考试系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/basic.css"/>
+</head>
+<body>
+
+
+<style>
+    .fl-l { float: left;}
+    .fl_r { float: right;}
+    .img-responsive { max-width: 100%; margin: 100px auto;}
+    .pic-yulan-wrap { width: 1000px; padding: 20px; margin: 60px auto;}
+    .ylan-close { background: #000000; padding: 6px 20px; display: block; width: 30px;
+        filter:alpha(opacity=40) /*只有IE识别*/ ; -moz-opacity:0.4; -khtml-opacity: 0.4; opacity: 0.4;
+        cursor: pointer; position: absolute; right: 0; top: 30px; font-size: 30px; color: #999999; padding: 20px;}
+    .ylan-close:hover,.ylan-close:focus,.ylan-close:active {
+        color: #FFFFFF;
+        filter:alpha(opacity=100) /*只有IE识别*/ ; -moz-opacity:1; -khtml-opacity: 1; opacity: 1;
+    }
+    .pic-yulan-body { position: relative; height: 100%;}
+    .pic-yulan-btn {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 60px;
+    }
+
+    .prev-btn {
+        text-align: left;
+    }
+
+    .next-btn {
+        text-align: right;
+    }
+
+    .pic-yulan-btn a {
+        position: relative;
+        height: 100%;
+        width: 50%;
+        cursor: pointer;
+        display: block;
+        color: #999999;
+    }
+
+    .pic-yulan-btn a:hover,
+    .pic-yulan-btn a:focus,
+    .pic-yulan-btn a:active {
+        color: #FFFFFF;
+    }
+
+    .pic-yulan-btn a span {
+
+        position: absolute;
+        top: 43%;
+    }
+</style>
+
+<div class="top">
+    <div class="top-content">
+        <h1 class="logo"><a href="javascript: void(0);"><img src="/static/images/logo.png"/></a></h1>
+
+    </div>
+</div>
+
+<div class="zhezhao-bg" id="pop" style="display: none">
+    <div class="pic-yulan-wrap">
+        <div class="pic-yulan-body text_center">
+            <a class="ylan-close" href="javascript: chooseDisplay();">X</a>
+            <div class="big-pic">
+                <img class="img-responsive" src="">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(".zhezhao-bg").height($(document).height()+67);
+    $(".zhezhao-bg").css('max-width', $(document).width);
+</script>
+<script>
+    function chooseDisplay() {
+        if($('#pop').is(':hidden')) {
+            $('#pop').show();
+        } else {
+            $('#pop').hide();
+        }
+    }
+</script>
+<div class="content">
+
+    <div class="ht_content_left">
+        <div class="ht_yangshi"></div>
+        <dl>
+            <dt class="menu-active">
+                <a href="/student/exercise"><img src="/static/images/left_ico1.png">练习题库</a></dt>
+        </dl>
+        <dl>
+            <dt class="">
+                <a href="/student/wrongQuestion"><img src="/static/images/left_ico2.png">错题库</a></dt>
+        </dl>
+        <dl>
+            <dt class="">
+                <a href="/student/collectQuestion"><img src="/static/images/left_ico3.png">收藏题库</a></dt>
+        </dl>
+        <dl>
+            <dt class="">
+                <a href="/student/examination"><img src="/static/images/left_ico4.png">模拟考试</a></dt>
+        </dl>
+    </div>
+    <div class="ht_content_right" id="ht_content_right">
+        <div class="ht_yemei">
+            <p>您当前所在位置：<a href="/student/courseList">首页</a> &gt;&gt; <span>
+
+                    练习题库
+
+
+
+                </span></p>
+        </div>
+        <div class="search">
+            <form method="post">
+                <ul class="search-ul">
+                    <li class="search-li">
+                        <label for="questionTypeSelect" class="search-label">试题类型:</label>
+                        <select id="questionTypeSelect" class="search-select">
+                            <option value="">-请选择题型-</option>
+
+                            <option value="jianda-3">听力填空题</option>
+
+                            <option value="zuhe-4">十选项完形填空</option>
+
+                            <option value="danxuan-1">单选题</option>
+
+                            <option value="zuhe-2">案例分析</option>
+
+                            <option value="duoxuan-1">多选题</option>
+
+                            <option value="base-8">句子翻译</option>
+
+                            <option value="panduan-1">判断题</option>
+
+                            <option value="zuhe-5">听力二</option>
+
+                            <option value="jianda-1">问答题</option>
+
+                            <option value="zuhe-6">五选项完型填空</option>
+
+                            <option value="jianda-2">填空题</option>
+
+                            <option value="zuhe-3">阅读理解</option>
+
+                            <option value="base-1">计算题</option>
+
+                            <option value="base-2">绘图题</option>
+
+                            <option value="danxuan-3">英语对话</option>
+
+                            <option value="zuhe-1">组合题</option>
+
+                            <option value="base-7">短语翻译</option>
+
+                            <option value="shangchuan-1">上传题</option>
+
+                            <option value="base-10">论述题</option>
+
+                            <option value="base-6">名词解释</option>
+
+                            <option value="base-3">编程题</option>
+
+                            <option value="base-4">纠错题</option>
+
+                            <option value="base-12">设计题</option>
+
+                            <option value="base-9">段落翻译</option>
+
+                            <option value="base-5">简答题</option>
+
+                            <option value="base-11">写作题</option>
+
+                            <option value="danxuan-2">听力一</option>
+
+                        </select>
+                    </li>
+                    <input type="button" class="btn search-btn1" value="查询" style="margin-top: -45px;" onclick="next()"/>
+                </ul>
+                <div class="clear"></div>
+            </form>
+        </div>
+        <div>
+            <div class="ht_sub_nr1">
+                <div class="sub-content">
+                    <div class="shiti-container" id="questionList"></div>
+                    <div class="clear"></div>
+                    <div class="shiti-buttons">
+                        <button class="li0 float-l btn" type="button" onclick="previous()">上一题</button>
+                        <button class="float-l btn" type="button" onclick="next()">下一题</button>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="tongji-container cl">
+                        <label class="daduinext float-l"><input type="checkbox" auto-next><span>答对自动下一题</span></label>
+                        <label class="x-dadui float-l">答对：<span class="count-right">0</span>题</label>
+                        <label class="x-dacuo float-l">答错：<span class="count-wrong">0</span>题</label>
+                        <label class="x-lv float-l">正确率：<span class="count-rate">0</span>%</label>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<<input type="hidden" id="label" value="2d8ec25fa7dd44adb15a68670bd3053a">
+
+
+
+<div class="foot">
+    Copyright 2017-2018 郑州大学版权所有 豫ICP备00000000号
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/qrcode.min.js"></script>
+<script src="/static/ueditor/ueditor.config.js"></script>
+<script src="/static/ueditor/ueditor.all.js"></script>
+
+
+
+
+<script type="text/javascript">
+    var questionsJson = [
+        {
+            "id": "1acf7853a9d44dcebddcd5f9b6f88db6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101013001",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101051010",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "0e62ee07659a4827a754972adc130b88",
+            "type": "base-1"
+        },
+        {
+            "id": "652101051007",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "4f79a24708ca4a7a81ad1ad922b49854",
+            "type": "jianda-1"
+        },
+        {
+            "id": "813f4738783444f4a711775b2b83c27f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "4a013a5bc68540bfb548551af4c774e7",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101063001",
+            "type": "panduan-1"
+        },
+        {
+            "id": "17036d3255c64dfc9b673299b6be3db7",
+            "type": "jianda-1"
+        },
+        {
+            "id": "86635086b6754805b39b92a2f6b163e5",
+            "type": "panduan-1"
+        },
+        {
+            "id": "ac389155825c4901b16a448c4086fb20",
+            "type": "panduan-1"
+        },
+        {
+            "id": "e5cdb2498c944ae48aab556eb41b0ef1",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "5c3686d15f3e4dd0a4251f92fed000a6",
+            "type": "panduan-1"
+        },
+        {
+            "id": "1144c76c63ca409cad1f6b87c993dd4b",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "520d7812e5574dc38c1a53a02d5ffbc4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "f52379e5f47d4fff9ea0ec6c88d77599",
+            "type": "jianda-1"
+        },
+        {
+            "id": "ecfb0900df7a45dbb47d253419ec0d88",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101051012",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "b4097e99db7841f6b5f98abac0288c08",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6abf19a4dcce49f3945d87ecc3e485d2",
+            "type": "panduan-1"
+        },
+        {
+            "id": "95d7f75401454ca9a0c88abf44110db8",
+            "type": "panduan-1"
+        },
+        {
+            "id": "c41c7b57dd4841819661328946944663",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101013008",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b33c1fa0d81948f0a2b7cf751f6271b8",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6dd4501eb97b45b8a09f90603d3fb888",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101023002",
+            "type": "panduan-1"
+        },
+        {
+            "id": "2c8107deb30d413498892f2a68f16ac2",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b89f8eabf556422e88d2a0c4ad57cd4b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101063007",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101013003",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f05cb8f2538041bbbb2868f75daca836",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101021006",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "f9b612500b0e4582808b2a81070ee457",
+            "type": "panduan-1"
+        },
+        {
+            "id": "3d0294c5457b45c1a078c04d6001de28",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101053005",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101061009",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "981a029caa97484c80e638158b2855c1",
+            "type": "panduan-1"
+        },
+        {
+            "id": "ed026f807fd44af39304b56b73971f56",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101013002",
+            "type": "panduan-1"
+        },
+        {
+            "id": "bad55156207f489a95da99120355dad6",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "17674c48a03245d3a241ee38cc8c4111",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101021009",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043008",
+            "type": "panduan-1"
+        },
+        {
+            "id": "9bfa58d4fef1419eb957e828611594f7",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f83fd5bd7e5f456897a8bfe9b8dd475a",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101041002",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "af5fbac7670d481d927698c5508f88d7",
+            "type": "jianda-1"
+        },
+        {
+            "id": "9d0a59ad941e444abd13cfd952547d21",
+            "type": "jianda-1"
+        },
+        {
+            "id": "8185bce1509043838aac7572ebf5b77b",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101041001",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101021002",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101033002",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5e19321695dd4567bdf7e838b0784209",
+            "type": "jianda-1"
+        },
+        {
+            "id": "9b366185d45c4ceca66c4ba47369ffd6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "ee6de13616204fcb95eec8f08d8b1e27",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "26276ddecb49488aa0cb35a93d652ce2",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101053002",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b9bd73bd45f24e2d89ae41007f304a55",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101033008",
+            "type": "panduan-1"
+        },
+        {
+            "id": "c5941c9366ee43c88b6b27e79922bedf",
+            "type": "panduan-1"
+        },
+        {
+            "id": "480397a608c74b04a20e626813f411b9",
+            "type": "panduan-1"
+        },
+        {
+            "id": "4565cec1794b4ebba6b9f508187f8979",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101061007",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "8d84c23519ea48a5886cb05716a75fc8",
+            "type": "jianda-1"
+        },
+        {
+            "id": "50bb54fdf1ca4979b873646c777b55cc",
+            "type": "jianda-1"
+        },
+        {
+            "id": "d86954f0c865412d89b5bfbd66383100",
+            "type": "jianda-1"
+        },
+        {
+            "id": "cca5ffe4d47046c1b077bfd5f466444b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "a5cb86c9d97d47caba2e0c340f3ec3d5",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101031006",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043005",
+            "type": "panduan-1"
+        },
+        {
+            "id": "d06b06c2e839479bb72c9843d984129f",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "c6c66cc314d141b58bda4692ea1b755f",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101011004",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101063002",
+            "type": "panduan-1"
+        },
+        {
+            "id": "66af958708e04b6da87e04200a1c95c6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101021001",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "54b97750e1b34e6f8eb6b674808de7c9",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101063013",
+            "type": "panduan-1"
+        },
+        {
+            "id": "42818d102a6c47a4bca9c22f190df0eb",
+            "type": "panduan-1"
+        },
+        {
+            "id": "8eae4ed04bdb4b67a7149f2320802125",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f8a2512aa1b84afe85d1f8e6b014803f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "cd1f67fb6db84836875940b2cfd039c0",
+            "type": "jianda-1"
+        },
+        {
+            "id": "818a2d0bbe98400da944810f5dd49e6d",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101053011",
+            "type": "panduan-1"
+        },
+        {
+            "id": "0fa6167ede6c4764b14023444f39f376",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "004fcabfbec142898458d98cee54a4b6",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "389b4ed376524401a362afbac4e68b1c",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "770cbb5598f6441ba7f863fe93c61404",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "b3173d4d5982401a85334bf098fdb61c",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101063006",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5b6613ae897143e88ea46c437b596826",
+            "type": "jianda-1"
+        },
+        {
+            "id": "dfe7b62639ff4cb4ab09bd4f7245cb4c",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101041008",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "1c45e8bd6253492798af7a20d5e75194",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f66035fa8357497e80cce2c4e1d36d91",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101011008",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "800a593e769e45929aaadc60bbe586bc",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5c56458a675b4d3da775e8433f88dc18",
+            "type": "panduan-1"
+        },
+        {
+            "id": "fa75362885904d6b8dfe1851e6f620c7",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101033007",
+            "type": "panduan-1"
+        },
+        {
+            "id": "cde1d730b89a4abe9d8ece997a6254b5",
+            "type": "panduan-1"
+        },
+        {
+            "id": "d6abceb3ec4a40019c712d2b673ad395",
+            "type": "panduan-1"
+        },
+        {
+            "id": "3486c2522ac043048c697de557b445b3",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101021004",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "853752c1e1184c4fb9614b9198c29148",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101043003",
+            "type": "panduan-1"
+        },
+        {
+            "id": "1b18b1da747d4a7580d200ac48a23be4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "1c9ed0934f314f51a1a4e55623fe05a7",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101021013",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101051001",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101011007",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "59c70c0f2df14e918914d1a72f4f1a48",
+            "type": "base-1"
+        },
+        {
+            "id": "c9e8556f75b4479ab3933030798ee3bb",
+            "type": "jianda-1"
+        },
+        {
+            "id": "5c517ffb689941948ce9156fd529ce6f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101063012",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b6183bdeab664fbf85eaff6147c5508a",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101053008",
+            "type": "panduan-1"
+        },
+        {
+            "id": "bbfca68af8534c44a64d719312802d0d",
+            "type": "jianda-1"
+        },
+        {
+            "id": "a2c5241ab2bc47638759e5a0188eba59",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101053007",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101051003",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043014",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101053014",
+            "type": "panduan-1"
+        },
+        {
+            "id": "61fbba370cbd40f68905bb4146167ba2",
+            "type": "jianda-1"
+        },
+        {
+            "id": "303b0f288452449e8b5ee39cb3cd7df4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "369acc796a3944128c8c0fb3f9d06db4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101053009",
+            "type": "panduan-1"
+        },
+        {
+            "id": "fc5c8abe9dc541baa96eb9bc3e7cf572",
+            "type": "jianda-1"
+        },
+        {
+            "id": "98ede2e493c146c1988ca013776dc64a",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101053013",
+            "type": "panduan-1"
+        },
+        {
+            "id": "09397e3d1a13464cb4005a8cfd4bf8d4",
+            "type": "base-1"
+        },
+        {
+            "id": "f7a25c3627554732bea8fb020dce4c0f",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101043006",
+            "type": "panduan-1"
+        },
+        {
+            "id": "3985ee7c03d0422f92047bb070e72cf3",
+            "type": "base-1"
+        },
+        {
+            "id": "099c46c2a4df47a385ce814b945d2aef",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101063008",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101031002",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043011",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101011006",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "2497349c001e440ba79dbdfc34b2783f",
+            "type": "jianda-1"
+        },
+        {
+            "id": "cce10b6906c244b1b9a9ad2a44e7f624",
+            "type": "base-1"
+        },
+        {
+            "id": "ab326eec21d144ac8fe1bfe0ac2a982f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101051008",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "f5e7a91a2c324ae594c233449c6bb9a0",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101041003",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043004",
+            "type": "panduan-1"
+        },
+        {
+            "id": "d66753ffc73e4a659c288da3774e1920",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101043016",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b0b0247021d444d5a2bad2a344f2fa4d",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101023004",
+            "type": "panduan-1"
+        },
+        {
+            "id": "1d2cf322968542579a71fbd9fcf3e7ce",
+            "type": "jianda-1"
+        },
+        {
+            "id": "0c0bb3517ceb4548884937e37d6cb03f",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101023006",
+            "type": "panduan-1"
+        },
+        {
+            "id": "69e2900bfe054f2ba8daad1e78cec039",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "29a93e91e61c4cab99a1cf10e8c76d66",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "9264056149314605b8c9dc612051c4b8",
+            "type": "jianda-1"
+        },
+        {
+            "id": "72050e38e64144bc8617a74990cd7cf7",
+            "type": "jianda-1"
+        },
+        {
+            "id": "88683ceebbb24d74871b4c943dfe4036",
+            "type": "jianda-1"
+        },
+        {
+            "id": "d9b65a1b6de4423c965c577e7e6332c9",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101061005",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101053010",
+            "type": "panduan-1"
+        },
+        {
+            "id": "957ff36ef5b3444899e72d8e2e3f5891",
+            "type": "jianda-1"
+        },
+        {
+            "id": "a8b744e0034440309736fdaeab8c5e03",
+            "type": "base-1"
+        },
+        {
+            "id": "f5cdd1cb56d448b7a195962a7921f06b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "3423af9a8628402a8be55b6100643c65",
+            "type": "panduan-1"
+        },
+        {
+            "id": "aa8c177513174854b758e952abc8d020",
+            "type": "panduan-1"
+        },
+        {
+            "id": "639237ef01b44919a8a2d4d1cd76d9a5",
+            "type": "base-1"
+        },
+        {
+            "id": "a3566afc8fd747bcac1df3974c4b8c3b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "18903ac6898d47eabc06b00b099ac06f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "7a9271e23f9640118cf3c1e0434ecc1e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "600b507a83fc47b2b22d21bde20d121d",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101021014",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101051006",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "7346b7ada1134a3babf06222bb22826f",
+            "type": "jianda-1"
+        },
+        {
+            "id": "d155edb06c63487bbc221a0043416090",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "b4aca952527d4f6c98a900e9d391d711",
+            "type": "jianda-1"
+        },
+        {
+            "id": "3e46a5f61e8946a9892c70ba42c24e71",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101043007",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5c29381d3562470098c24c8af8a75722",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b1c18ea1c48a49ca93dd0abb72aec238",
+            "type": "jianda-1"
+        },
+        {
+            "id": "06982d3f704f4110bc3f9dfe086a9f57",
+            "type": "jianda-1"
+        },
+        {
+            "id": "18411e3e362442c8b05dc3d809c09e66",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101041004",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101031001",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "fa0dbfb7345640e5a2e829438ae5ca52",
+            "type": "jianda-1"
+        },
+        {
+            "id": "44983fb901d44581a46bf1be180d46ab",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101053003",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f980cb6e24d04313a1906f5914ac7147",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101041007",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101061008",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043009",
+            "type": "panduan-1"
+        },
+        {
+            "id": "623ceb264f4c435db0b47394d96da993",
+            "type": "jianda-1"
+        },
+        {
+            "id": "3c3e6d4876f74a39b7a194e635e406a3",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101013004",
+            "type": "panduan-1"
+        },
+        {
+            "id": "1a0a8b3ad65044a084b5bc18057ac129",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f9b40ba350aa443388ee6235f47baff8",
+            "type": "jianda-1"
+        },
+        {
+            "id": "f4ea2d5b6a1d4909943b1f1e9670747b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "50fbf7173062425a8f0b612b81412290",
+            "type": "panduan-1"
+        },
+        {
+            "id": "6b9f4370e3f240db9068071432ee78bc",
+            "type": "panduan-1"
+        },
+        {
+            "id": "117f7ff12383404f94325388bfbad3e1",
+            "type": "panduan-1"
+        },
+        {
+            "id": "20c111c103e04495aab19e4d267dd73e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101031005",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "8806230e3a9c4bd5a520d991123e24fd",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6d81a2a4997a4ff2b316a70c353f194b",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101023003",
+            "type": "panduan-1"
+        },
+        {
+            "id": "758edd2781274e1dbb6cb36bc90342e8",
+            "type": "jianda-1"
+        },
+        {
+            "id": "b94fe45747ad403bbae616d1fcac5cc2",
+            "type": "panduan-1"
+        },
+        {
+            "id": "0a627888e65745be9c1d507407547636",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101063004",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5f29b003f5544858835a58a88fa03881",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101051002",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101053004",
+            "type": "panduan-1"
+        },
+        {
+            "id": "d675a3f7a7e64dbe9a5e5662166e0f53",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101063003",
+            "type": "panduan-1"
+        },
+        {
+            "id": "ea35769566f042ffa6ec4226a23d6678",
+            "type": "jianda-1"
+        },
+        {
+            "id": "7e01589cd11d4fe8bb9265e078da16bf",
+            "type": "jianda-1"
+        },
+        {
+            "id": "f47af5dc6e3b44ffbc93461191c1f088",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101061006",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "1412af5cc1b04aa081d8f75a2f439fd1",
+            "type": "jianda-1"
+        },
+        {
+            "id": "31793a6938c0492d856350fb4fea8493",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6ff593915e454affaa19a99c3b82108a",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101011003",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "91b34dc658b640e39ef5ad6dd0716e62",
+            "type": "jianda-1"
+        },
+        {
+            "id": "70ba919ea2ed4affbcf47fc007029cd3",
+            "type": "panduan-1"
+        },
+        {
+            "id": "67975db0e76e465a983be35f3e17671b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "967234dd90294ab090e2d7c48b45fa50",
+            "type": "jianda-1"
+        },
+        {
+            "id": "4a09b8a9aab640609c468812ab130709",
+            "type": "jianda-1"
+        },
+        {
+            "id": "3d4a0e164f4542a79271e9186d5144ed",
+            "type": "panduan-1"
+        },
+        {
+            "id": "754a5b1eaf5d4ed9b2c4c72f191ce750",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5cfaf53596194fe99dfe6d8b66473443",
+            "type": "panduan-1"
+        },
+        {
+            "id": "62f489547aea4c229130659bf70ec83b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "f0a9995101a943e09dfc71352476c3ff",
+            "type": "jianda-1"
+        },
+        {
+            "id": "f8aea2b710e64e7ca91bdf052abe8388",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101031004",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "b995567a44d648699bb25055f6b3decf",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101021010",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "4828238b8845494d9198538332cb395f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "cc637ee11ece4e2da43502a949d53617",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101013006",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101021012",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "82f2e8afe01b4edda369107251548f42",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101063009",
+            "type": "panduan-1"
+        },
+        {
+            "id": "184a9a7828f343bda99e6d2de1feb29b",
+            "type": "jianda-1"
+        },
+        {
+            "id": "305185c3fe3a4d43a162672fa451d7f9",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101031003",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101043001",
+            "type": "panduan-1"
+        },
+        {
+            "id": "5327dcfb91a84419bdfa26de197ea8db",
+            "type": "panduan-1"
+        },
+        {
+            "id": "484538222de544929ee6d3e7e7b7d5be",
+            "type": "jianda-1"
+        },
+        {
+            "id": "72e2bce3e288432e8fcdd9a6cd042bc9",
+            "type": "jianda-1"
+        },
+        {
+            "id": "0d4917116b9144a9a4eaa8173d8e2a87",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6fccfc403ded4954a6fd08f9ea26e303",
+            "type": "jianda-1"
+        },
+        {
+            "id": "7e77ad45e4e14820b9131b2bb5052a87",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "c3ab225d558644f4acd5d85106a86359",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "40234f34ab434047bf754acad70bfc80",
+            "type": "panduan-1"
+        },
+        {
+            "id": "b88bb6b2b796468d81bf599b3772c210",
+            "type": "panduan-1"
+        },
+        {
+            "id": "513e80e96e86434f87e482f9f2577500",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "13f2d42525e94dee8932675939ac8eed",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101021005",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "c8c78d7d27a24d07aa9d74b99ccddff2",
+            "type": "jianda-1"
+        },
+        {
+            "id": "20a230f2e0004832b133a0b016cedd2a",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6ce828b1c7914b8a9828da211792b6f6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "21ddb0816bbe4dd8bede35aebcee6f82",
+            "type": "panduan-1"
+        },
+        {
+            "id": "53f93e8cbbfd4eb9aef1c4219616fe41",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "180a2fcfdeaf4be6b50580a2b949c0b4",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101021011",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "bcd4ebd56cef4b37ae153ac44cb1d538",
+            "type": "jianda-1"
+        },
+        {
+            "id": "850fc263cac4421ab6e25b02ae02d641",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101051004",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "fb97520ca137414f82d0c7f4ea96894c",
+            "type": "base-1"
+        },
+        {
+            "id": "652101051015",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "43365af649bf43f08964d725ed6d5d62",
+            "type": "jianda-1"
+        },
+        {
+            "id": "a6fbbdd64b894cbf9f8120edb444d5a6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101021015",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101021003",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "c11fc8fbf2364abaae375976277a8033",
+            "type": "jianda-1"
+        },
+        {
+            "id": "194a93a2e3ce4bc5a73c183c2e323516",
+            "type": "panduan-1"
+        },
+        {
+            "id": "0900aa7af34c41ddaa995d0d0847d6ad",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101041005",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "12819468dae14ba784c217d7c205d30f",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101063011",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101061004",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "0d0decb5bee545558f9fd4d748b3eb38",
+            "type": "jianda-1"
+        },
+        {
+            "id": "738fe98157d040f68b76d4d6b49e7e65",
+            "type": "jianda-1"
+        },
+        {
+            "id": "d0161bfcbc5b41209784763dc23971bf",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101041009",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "babec93312214868af86314076ad4ecc",
+            "type": "base-1"
+        },
+        {
+            "id": "a9d3bf8248b042e0832db4b04235f7d3",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "49bb6c2edada4a95a6a7a0682a12827e",
+            "type": "panduan-1"
+        },
+        {
+            "id": "22bfcaebca4646d2b564051b090a6602",
+            "type": "jianda-1"
+        },
+        {
+            "id": "df6390cac7654aa1a834131831c682c0",
+            "type": "panduan-1"
+        },
+        {
+            "id": "2b23c1ac409049ef837d51848ddfaf9b",
+            "type": "panduan-1"
+        },
+        {
+            "id": "0218964dc79c498d9ab758f4d16df7f9",
+            "type": "panduan-1"
+        },
+        {
+            "id": "9f456b9e2c694bfaba12e3222a587b4e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101053012",
+            "type": "panduan-1"
+        },
+        {
+            "id": "40118d9f199d4461bc00827ca5d8f3b6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "f2c00684eda24319b2a72368f23f2338",
+            "type": "base-1"
+        },
+        {
+            "id": "652101053006",
+            "type": "panduan-1"
+        },
+        {
+            "id": "a6ee23a3f5f644cdb793f66f8906ea1a",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "7e775a543d1b405eb9da0ec136a71498",
+            "type": "jianda-1"
+        },
+        {
+            "id": "85e7aa5881314e218092250ff8998c87",
+            "type": "panduan-1"
+        },
+        {
+            "id": "6b7b758b4daa45a290de274e7989a099",
+            "type": "jianda-1"
+        },
+        {
+            "id": "b8ab15f13b6a4dac91eeb85cc47bc800",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "db99f10536f447bebdd9ad460b78de27",
+            "type": "jianda-1"
+        },
+        {
+            "id": "e012d9a3a81c45ae813a08ca8008faa4",
+            "type": "base-1"
+        },
+        {
+            "id": "6dfae3bc9f194a169e6242b3dd4825c5",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101051009",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "0bce44b9e02148ed8a769ce3d0629951",
+            "type": "panduan-1"
+        },
+        {
+            "id": "87eb7df49c054c5192bcd19b806f439e",
+            "type": "base-1"
+        },
+        {
+            "id": "652101063005",
+            "type": "panduan-1"
+        },
+        {
+            "id": "2d42a3ce36984ecc9fd8f8913328e12b",
+            "type": "panduan-1"
+        },
+        {
+            "id": "61d83f38f59048118cdbeb45e761b0e4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "ae0e0caffe02432fb88784e27e2d849e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101033001",
+            "type": "panduan-1"
+        },
+        {
+            "id": "209537e9ad89427296309d64a8610915",
+            "type": "jianda-1"
+        },
+        {
+            "id": "0f0d7dab66f04a3aaa6af68ab482bb91",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101051013",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "4ec1afc3b0da40e3bda5fa9e5589b2e3",
+            "type": "base-1"
+        },
+        {
+            "id": "652101053001",
+            "type": "panduan-1"
+        },
+        {
+            "id": "d13d9d6adf3b46d7a7abda04f4c9c69f",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "ace9d84ee9064b9da71888376a69e7a6",
+            "type": "jianda-1"
+        },
+        {
+            "id": "15f600df9e4c400383e3892281893503",
+            "type": "panduan-1"
+        },
+        {
+            "id": "e64df4edfbc74301b61e26c390a88b4a",
+            "type": "panduan-1"
+        },
+        {
+            "id": "101a7d79ec0a40f5aa7d47eb3143cf4c",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101013005",
+            "type": "panduan-1"
+        },
+        {
+            "id": "322cb744fb454ae588169ca06cd60954",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6239929e677f49ba8c71132769639321",
+            "type": "panduan-1"
+        },
+        {
+            "id": "9b3e6ff36b154222b2e1de3bcdcefa9b",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "6202d2297c624de1897ed8223f586a3b",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101021007",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "6925ce52d37a49d5ba944b0e7cf23343",
+            "type": "panduan-1"
+        },
+        {
+            "id": "c77ef868d39747b3bb9f3af35545ed70",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101043015",
+            "type": "panduan-1"
+        },
+        {
+            "id": "c0faf4b1928c4dc782997959a6364217",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101043012",
+            "type": "panduan-1"
+        },
+        {
+            "id": "3d61f26f1a464846bdd3836afc5bbb99",
+            "type": "jianda-1"
+        },
+        {
+            "id": "d7bd817f0b764717bd9b021291e44e91",
+            "type": "base-1"
+        },
+        {
+            "id": "c6111a41772a48d7a42c6a04f5227059",
+            "type": "panduan-1"
+        },
+        {
+            "id": "77a9ceb51f1f453fad968c8b9513e7fe",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101033005",
+            "type": "panduan-1"
+        },
+        {
+            "id": "58e9e876b90d47cdb5fca215555bb89f",
+            "type": "jianda-1"
+        },
+        {
+            "id": "3d6ea744e7dc41b0a42f815e582c2fdb",
+            "type": "jianda-1"
+        },
+        {
+            "id": "0dc3fd7d111f4aff83f605beea31ce21",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101061001",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "152a5410bebc4741807fe96d6fa23e05",
+            "type": "panduan-1"
+        },
+        {
+            "id": "6e6f713d20f642c0aa8f082c983acb77",
+            "type": "jianda-1"
+        },
+        {
+            "id": "19ff468fb81a48b3866a805687cdd025",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101023005",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101023001",
+            "type": "panduan-1"
+        },
+        {
+            "id": "e419dc43ba704d2c8c2b5e337bf59e9d",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101011002",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "3fcf0a95f9ee49a184cbd9e70d4ac899",
+            "type": "panduan-1"
+        },
+        {
+            "id": "f0bc95913cf7486898fc9f8ff8f564cc",
+            "type": "panduan-1"
+        },
+        {
+            "id": "36d343215a214d26b8fea594e10f48af",
+            "type": "jianda-1"
+        },
+        {
+            "id": "237365d720b0413a9fa77f15c90b25f1",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101061002",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101063010",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101021008",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "74dbe218c6004cf6a6e7f5fb55781df5",
+            "type": "panduan-1"
+        },
+        {
+            "id": "9b9acab4de544854b5ea375b38e3c462",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101013007",
+            "type": "panduan-1"
+        },
+        {
+            "id": "10cc3d7b327d40c8a0bb47aed6b2352c",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "d682e1459d534ad8949916da80e8383a",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101033003",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101051005",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101061003",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "760cd183811e435e91dcf260b2cb200d",
+            "type": "jianda-1"
+        },
+        {
+            "id": "11272498a1c34bb2b7282d97f5058f85",
+            "type": "panduan-1"
+        },
+        {
+            "id": "6cb40578c7574e7d82f4831fcf77de79",
+            "type": "jianda-1"
+        },
+        {
+            "id": "7b8b6b7cc0604ae3ad04bb80c9273ca7",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101011001",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "bb1e0578452342dca4788ccd37b06186",
+            "type": "panduan-1"
+        },
+        {
+            "id": "161163fe990d40a4857bf8b6c8a93d27",
+            "type": "jianda-1"
+        },
+        {
+            "id": "1bf061b32fee46a483b1f55f8deba58f",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101011005",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101051011",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "d71d05e6dfb84de7ba0c263c3534132c",
+            "type": "jianda-1"
+        },
+        {
+            "id": "65b41c8284b64539a512229711711585",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101043002",
+            "type": "panduan-1"
+        },
+        {
+            "id": "4e45a4d2a1914127b707deccbf2eff68",
+            "type": "jianda-1"
+        },
+        {
+            "id": "53e9984d1fc94e8abc791ec8f983345e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "652101043010",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101041006",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "9c31650b5a854ddfab37f312aa92fd2a",
+            "type": "panduan-1"
+        },
+        {
+            "id": "6b7f9d3aeb7e4112a9464d0f5a6def15",
+            "type": "jianda-1"
+        },
+        {
+            "id": "91264d20f4fc48d684437b2419cb72d4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "719e1da1927349729705c72ca1780cc4",
+            "type": "jianda-1"
+        },
+        {
+            "id": "d86020b1938d44c2aebbea292966f24e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "e3f06f626f424f2e8ec879ad5eb8fa35",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "652101033004",
+            "type": "panduan-1"
+        },
+        {
+            "id": "8e3c26700f54480389424f33f64291fb",
+            "type": "panduan-1"
+        },
+        {
+            "id": "c759f2f428724b4aac72224151280855",
+            "type": "jianda-1"
+        },
+        {
+            "id": "c7e8be36c9094e3592f331139cc0bddd",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101043013",
+            "type": "panduan-1"
+        },
+        {
+            "id": "3bd16613295844dfb3641bf52a5c7887",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "841a6c3d5b0742ef8b77039d71fbbc5e",
+            "type": "jianda-1"
+        },
+        {
+            "id": "9d331f88e21a40238bc638c1c2f8cc16",
+            "type": "jianda-1"
+        },
+        {
+            "id": "455374eb4b9445059c407000ba177e04",
+            "type": "jianda-1"
+        },
+        {
+            "id": "6bbb9f066f934545a662145267050670",
+            "type": "jianda-1"
+        },
+        {
+            "id": "78e87cf661a74173b51e507bfd40107a",
+            "type": "jianda-1"
+        },
+        {
+            "id": "085336a88c004ab48e54f0c74c075573",
+            "type": "panduan-1"
+        },
+        {
+            "id": "30bb6223e79d4b019744cda1332e22c7",
+            "type": "base-1"
+        },
+        {
+            "id": "652101033006",
+            "type": "panduan-1"
+        },
+        {
+            "id": "652101051014",
+            "type": "danxuan-1"
+        },
+        {
+            "id": "d1293b078eee4261a59221343f268603",
+            "type": "panduan-1"
+        },
+        {
+            "id": "18d8050c155c4762b3de1176e0b37b68",
+            "type": "panduan-1"
+        },
+        {
+            "id": "95cc94e51bd34ed783cb7f386c9339f1",
+            "type": "jianda-1"
+        },
+        {
+            "id": "dfa823940110457db470f17a24d1d5b1",
+            "type": "base-1"
+        }
+    ];
+    $(function () {
+        if(questionsJson.length < 1) {
+            $('#questionList').html('题库暂时没有试题!');
+            $('#questionTypeSelect').empty();
+        } else {
+            next();
+            var allTypes = [], existTypes = [];
+            $('#questionTypeSelect option:gt(0)').each(function () {
+                allTypes.push($(this).val());
+            });
+
+            $(questionsJson).each(function () {
+                if(existTypes.join().indexOf(this.type) < 0) {
+                    existTypes.push(this.type);
+                }
+            });
+
+            var diffTypes = arrayDifference(allTypes, existTypes);
+            $(diffTypes).each(function () {
+                $('#questionTypeSelect').find('option[value="' + this + '"]').remove();
+            });
+        }
+    });
+
+    // 集合差集
+    function arrayDifference(a, b) {
+        var clone = a.slice(0);
+        for(var i = 0; i < b.length; i ++) {
+            var temp = b[i];
+            for(var j = 0; j < clone.length; j ++) {
+                if(temp === clone[j]) {
+                    //remove clone[j]
+                    clone.splice(j,1);
+                }
+            }
+        }
+        return clone;
+    }
+
+    // 筛选试题
+    function grepQuestion(q) {
+        var qIds = [], grepType = $('#questionTypeSelect').val();
+        $('#questionList').find('.q-content').each(function () {
+            qIds.push($(this).attr('data-q-id'));
+        });
+        return (grepType === '' ? true : (q.type === grepType)) && qIds.indexOf(q.id) < 0;
+    }
+
+    // 下一题
+    function next() {
+        var spareQuestion = questionsJson.filter(grepQuestion);
+        if(spareQuestion.length < 1) {
+            layer.msg('已经是最后一道题!');
+            return false;
+        }
+
+        $.ajax({
+            url: '/student/getQuestion',
+            data: {qId: spareQuestion[0].id, isSimulate: 1},
+            datatype: 'html',
+            success: function (html) {
+                $('#questionList').find('.q-content').hide();
+                $('#questionList').append(html);
+            }
+        });
+    }
+
+    // 上一题
+    function previous() {
+        var prevQuestionDiv = $('#questionList').find('div:visible').prev();
+        if($(prevQuestionDiv).hasClass('q-content')) {
+            $('#questionList').find('.q-content').hide();
+            $(prevQuestionDiv).show();
+        } else {
+            layer.msg('已经是第一题!');
+        }
+    }
+
+    // 提交答题
+    function answerSubmit() {
+        var e = $('#questionList').find('div:visible'), answer = []
+            , answerFlag
+            , qId = $(e).attr('data-q-id')
+            , params = 'questionId=' + qId + '&label=' + $('#label').val();
+        $(e).find('.q-item').each(function () {
+            var _answer = {}, eqId = $(this).attr('data-q-id'), answerArray = [];
+            _answer.qId = eqId;
+            if($('#ue_' + eqId)[0]) { // ueditor
+                _answer.ue = UE.getEditor('ue_' + eqId).getContent();
+            }
+            if($(this).find('.answer.xuan').length > 0) { // radio
+                _answer.answers = $(this).find('.answer.xuan').attr('data-o-id');
+            }
+            if($(this).find('.answer.check-xuan').length > 0) { // checkbox
+                $(this).find('.answer.check-xuan').each(function () {
+                    answerArray.push($(this).attr('data-o-id'));
+                });
+                _answer.answers = answerArray.join(',');
+            }
+
+            answer.push(_answer);
+        });
+
+        if($(e).find('.q-item').length < 2) {
+            $(e).find('.answer.check-xuan').each(function () {
+                if('1' == $(this).attr('data-o-right-flag')) {
+                    $(this).addClass('check-dui');
+                    answerFlag = 1;
+                    $(e).find('label').text('回答正确!');
+                } else {
+                    $(this).addClass('check-cuo');
+                    answerFlag = 0;
+                }
+            });
+
+            if($(e).find('.answer.check-xuan').length !=
+                $(e).find('.answer[data-o-right-flag="1"]').length) { // 判断已选的选项个数是否跟正确答案个数一样
+                answerFlag = 0;
+                $(e).find('label').text('回答错误!');
+            }
+
+            $(e).find('.answer.xuan').each(function () { // 已选的选项,只要有选择的错误项必错
+                if('1' == $(this).attr('data-o-right-flag')) {
+                    $(this).addClass('dui');
+                    answerFlag = 1;
+                    $(e).find('label').text('回答正确!');
+                } else {
+                    $(this).addClass('cuo');
+                    answerFlag = 0;
+                }
+            });
+        } else {
+            answerFlag = undefined;
+        }
+        params += '&answer=' + JSON.stringify(answer);
+        params += '&answerFlag=' + answerFlag;
+        $.post('/student/exercise/answer', params, function (result) {
+            $(e).find('.answer').removeAttr('onclick');
+            $(e).find('.answerSubmitBtn').attr('disabled', true);
+            $(e).find('.answerSubmitBtn').addClass('btn_disabled');
+            $(e).attr('data-answer-flag', answerFlag);
+            $(e).find('.tip-container').show();
+
+            // 答题统计
+            var rightNum = $('.q-content[data-answer-flag=1]').length
+                , wrongNum = $('.q-content[data-answer-flag=0]').length;
+            $('.count-right').text(rightNum);
+            $('.count-wrong').text(wrongNum);
+            $('.count-rate').text(rightNum + wrongNum == 0 ? 0 : parseInt(rightNum * 100 / (rightNum + wrongNum)));
+            $('.xq_btn_' + qId).show();
+
+            // 自动下一题
+            if('1' == answerFlag && $('[auto-next]').is(':checked')) {
+                setTimeout(next, 4000);
+            }
+        });
+    }
+
+    // 答题
+    function answer(e) {
+        // 单选|判断移除其它选中效果
+        if($(e).closest('div').find('p[data-o-right-flag="1"]').length < 2) {
+            $(e).siblings().removeClass('xuan');
+        }
+
+        if($(e).hasClass('xuan') || $(e).hasClass('check-xuan')) {
+            $(e).removeClass('xuan').removeClass('check-xuan');
+        } else {
+            if($(e).closest('div').find('p[data-o-right-flag="1"]').length < 2) {
+                $(e).addClass('xuan');
+            } else {
+                $(e).addClass('check-xuan');
+            }
+        }
+    }
+
+    // 试题收藏
+    function collect(e) {
+        var qId = $(e).closest('.q-content').attr('data-q-id')
+            , isCollect = $(e).attr('data-is-collect');
+        $.post('/student/collectQuestion/collect', {questionId: qId}, function (result) {
+            result = JSON.parse(result);
+            if('200' == result.code) {
+                $(e).attr('data-is-collect', isCollect === 'true' ? 'false' : 'true');
+                $(e).removeClass().addClass(isCollect === 'true' ? 'favor-tag-off' : 'favor-tag-on');
+            }
+        });
+    }
+
+
+
+    //=点击展开关闭效果=
+    function openShutManager(oSourceObj, oTargetObj, shutAble, oOpenTip, oShutTip) {
+        var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+        var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+        var openTip = oOpenTip || "";
+        var shutTip = oShutTip || "";
+        if (targetObj.style.display != "none") {
+            if (shutAble) return;
+            targetObj.style.display = "none";
+            if (openTip && shutTip) {
+                sourceObj.innerHTML = shutTip;
+            }
+        } else {
+            targetObj.style.display = "block";
+            if (openTip && shutTip) {
+                sourceObj.innerHTML = openTip;
+            }
+        }
+    }
+    //left nav height
+    $(".ht_content_left").height($(document).height() - 136);
+</script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>考试系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/basic.css"/>
+</head>
+<body>
+
+<style>
+    .fl-l { float: left;}
+    .fl_r { float: right;}
+    .img-responsive { max-width: 100%; margin: 100px auto;}
+    .pic-yulan-wrap { width: 1000px; padding: 20px; margin: 60px auto;}
+    .ylan-close { background: #000000; padding: 6px 20px; display: block; width: 30px;
+        filter:alpha(opacity=40) /*只有IE识别*/ ; -moz-opacity:0.4; -khtml-opacity: 0.4; opacity: 0.4;
+        cursor: pointer; position: absolute; right: 0; top: 30px; font-size: 30px; color: #999999; padding: 20px;}
+    .ylan-close:hover,.ylan-close:focus,.ylan-close:active {
+        color: #FFFFFF;
+        filter:alpha(opacity=100) /*只有IE识别*/ ; -moz-opacity:1; -khtml-opacity: 1; opacity: 1;
+    }
+    .pic-yulan-body { position: relative; height: 100%;}
+    .pic-yulan-btn {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 60px;
+    }
+
+    .prev-btn {
+        text-align: left;
+    }
+
+    .next-btn {
+        text-align: right;
+    }
+
+    .pic-yulan-btn a {
+        position: relative;
+        height: 100%;
+        width: 50%;
+        cursor: pointer;
+        display: block;
+        color: #999999;
+    }
+
+    .pic-yulan-btn a:hover,
+    .pic-yulan-btn a:focus,
+    .pic-yulan-btn a:active {
+        color: #FFFFFF;
+    }
+
+    .pic-yulan-btn a span {
+
+        position: absolute;
+        top: 43%;
+    }
+</style>
+
+<div class="top">
+    <div class="top-content">
+        <h1 class="logo"><a href="javascript: void(0);"><img src="/static/images/logo.png"/></a></h1>
+
+    </div>
+</div>
+
+<div class="zhezhao-bg" id="pop" style="display: none">
+    <div class="pic-yulan-wrap">
+        <div class="pic-yulan-body text_center">
+            <a class="ylan-close" href="javascript: chooseDisplay();">X</a>
+            <div class="big-pic">
+                <img class="img-responsive" src="">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(".zhezhao-bg").height($(document).height()+67);
+    $(".zhezhao-bg").css('max-width', $(document).width);
+</script>
+<script>
+    function chooseDisplay() {
+        if($('#pop').is(':hidden')) {
+            $('#pop').show();
+        } else {
+            $('#pop').hide();
+        }
+    }
+</script>
+<div class="contain">
+    <style>
+        .btn-red {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #d9534f !important;
+            border-color: #d43f3a !important;
+        }
+
+        .btn-red:hover, .btn-red:active { background: #aa2825 !important; border-color: #aa2825 !important;}
+        .down-load-bt { margin-top: 125px; text-align: right;
+
+            /*如果按钮太靠里 把下一句注释了*/
+            padding-right: 25px;
+        }
+    </style>
+    <div class="down-load-bt">
+
+        <h3 class="class-list-title">考试时间:2018-04-17 09:00:00-----2018-05-20 23:59:59</h3>
+
+        <button class="btn-red cli-down-btn">客户端下载</button>
+        <button class="btn-red manual-down-btn">学生手册下载</button>
+    </div>
+    <div class="class-list-ner">
+        <ul class="fl-li class-list-ul">
+
+
+
+        </ul>
+        <div class="clear"></div>
+        <ul class="fl-li class-list-ul">
+
+            <h3 class="class-list-title">第3学期</h3>
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">Linux操作系统</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770089089">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770089089')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">网页设计与网站建设</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770080605">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770080605')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">计算机硬件技术基础</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086521">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086521')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">平面设计与制作</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086520">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086520')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">Visual Basic程序设计</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086518">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086518')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">Access数据库开发</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086507">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086507')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+        </ul>
+        <div class="clear"></div>
+        <ul class="fl-li class-list-ul">
+
+            <h3 class="class-list-title">第2学期</h3>
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">汇编语言程序设计</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770089090">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770089090')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">计算机组成与维护</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770089088">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770089088')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">多媒体制作技术</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086508">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086508')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">网络技术基础</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086504">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086504')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">数据库应用技术</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086501">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086501')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">专科英语II</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770080918">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770080918')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+        </ul>
+        <div class="clear"></div>
+        <ul class="fl-li class-list-ul">
+
+            <h3 class="class-list-title">第1学期</h3>
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">思想道德修养</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770080025">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770080025')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">网上学习导论</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770080034">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770080034')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">电子技术基础(信工)</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770089087">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770089087')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">应用写作</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086620">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086620')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">专科英语I</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770080909">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770080909')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">高级语言程序设计</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770086517">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770086517')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="class-list-li">
+                <p class="text_center class-name float-l">计算机应用基础</p>
+                <div class="clear"></div>
+                <div class="text_center">
+
+                    <a class="btn btn-sm btn-border" href="/student/courseSelect?studentCourseId=162121770080005">进入练习</a>
+                    <a class="btn btn-sm btn-border" onclick="checkPhoto('162121770080005')">查看监控照片</a>
+
+
+                </div>
+            </li>
+
+            <div class="clear"></div>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+
+
+<div class="foot">
+    Copyright 2017-2018 郑州大学版权所有 豫ICP备00000000号
+</div>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script>
+    $(function () {
+        $('.btn-refresh').click(refresh);
+        $('.cli-down-btn').click(downloadClient);
+        $('.manual-down-btn').click(downloadManual);
+    });
+
+    // 下载客户端
+    function downloadClient() {
+        $.post('/student/version/getCurrentVersion', function (result) {
+            result = JSON.parse(result);
+            if(result.obj.url) {
+                window.open(result.obj.url);
+            } else {
+                /*layer.msg('暂无客户端,请联系管理员!')*/
+                layer.msg('客户端正在升级完善中，将于4月10号正式上线，谢谢您的关注!')
+            }
+        });
+    }
+    function downloadManual() {
+        $.post('/student/version/getCurrentVersion', function (result) {
+            result = JSON.parse(result);
+            if(result.obj.url) {
+                window.open(result.obj.manualUrl);
+            } else {
+                layer.msg('暂无客户端,请联系管理员!')
+                /*layer.msg('客户端正在升级完善中，将于4月10号正式上线，谢谢您的关注!')*/
+            }
+        });
+    }
+
+    // 申请复烤
+    //function refresh() {
+    //    var e = $(this);
+    //    if(!$(e).hasClass('btn_disabled')) {
+    //        layer.confirm('确定申诉重考?', function (index) {
+    //            layer.close(index);
+    //            $.post('/student/examinationRefresh/refresh', {studentCourseId: $(this).attr('data-xc-id')}, function (result) {
+    //                $(e).removeClass('btn-success-border').addClass('btn_disabled');
+    //                $(e).unbind();
+    //            });
+    //        });
+    //    }
+    //}
+    // 申请复烤
+    function refresh(id) {
+        //var e = $(this);
+        //if(!$(e).hasClass('btn_disabled')) {
+        layer.confirm('确定申诉重考?', function (index) {
+            layer.close(index);
+            $.post('/student/examinationRefresh/refresh', {studentCourseId: id}, function (result) {
+                $("#"+id+"").removeClass('btn-success-border').addClass('btn_disabled');
+                $("#"+id+"").unbind();
+            });
+        });
+        //}
+    }
+    function checkPhoto(id){
+        layer.open({
+            title: '查看照片',
+            type: 2,
+            skin: 'layui-layer-rim',
+            area: ['1200px', '80%'],
+            content: "/student/checkPhoto?studentCourseId=" + id
+        });
+    }
+</script>
+</body>
+</html>

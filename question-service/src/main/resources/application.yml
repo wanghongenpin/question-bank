@@ -1,0 +1,43 @@
+server:
+  port: 80
+#eureka:
+#  client:
+#     serviceUrl:
+#         defaultZone: http://localhost:8761/eureka
+#  instance:
+#    hostname: question-service
+
+spring:
+  application:
+    name: question-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: wanghe
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+
+logging:
+  level:
+    root: INFO
+
+api:
+  urls:
+    loginUrl: http://123.15.57.15/sss/zzjlogin.dll/login
+    userInfoUrl: http://123.15.57.59/vls2s/vls3isapi.dll/personalinfo?ptopid={1}
+    subjectBankLoginUrl: http://222.22.63.178//student/wsdlLogin?ptopid={1}
+    subjectsUrl: http://222.22.63.178/student/courseList
+    subjectUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
+    questionBankUrl: http://222.22.63.178/student/exercise
+    questionUrl: http://222.22.63.178/student/getQuestion?qId={1}&isSimulate=1
+

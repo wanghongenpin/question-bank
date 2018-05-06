@@ -1,0 +1,24 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: gatewat-service
+#eureka:
+#  client:
+#     serviceUrl:
+#         defaultZone: http://localhost:8761/eureka
+#  instance:
+#    hostname: gatewat-service
+#    prefer-ip-address: true
+zuul:
+  host:
+    socket-timeout-millis: 100000
+  routes:
+    question-server:
+      path: /questions/**
+#      serviceId: question-service
+      url: http://localhost:8080
+      stripPrefix: false
+
+
+
