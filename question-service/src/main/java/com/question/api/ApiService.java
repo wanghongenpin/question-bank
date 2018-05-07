@@ -1,9 +1,6 @@
 package com.question.api;
 
-import com.question.utils.cache.CacheService;
 import org.apache.commons.codec.digest.Md5Crypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
@@ -15,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
-import java.util.Collections;
 
 /**
  * @author wanghongen
@@ -23,26 +19,18 @@ import java.util.Collections;
  */
 @Service
 public class ApiService {
-    private static final Logger logger = LoggerFactory.getLogger(ApiService.class);
+    //    private static final Logger logger = LoggerFactory.getLogger(ApiService.class);
     @Resource
     private RestTemplate restTemplate;
 
     @Resource
     private ApiConfiguration configuration;
-    @Resource
-    private CacheService cacheService;
 
     @Bean
     public RestTemplate restTemplate() {
         StringHttpMessageConverter messageConverter = new StringHttpMessageConverter(Charset.forName("GBK"));
         RestTemplate restTemplate = new RestTemplateBuilder().build();
         restTemplate.getMessageConverters().set(0, messageConverter); // 支持中文编码
-
-        restTemplate.setInterceptors(Collections.singletonList((request, body, execution) -> {
-            HttpHeaders headers = request.getHeaders();
-            headers.add(HttpHeaders.COOKIE, cacheService.get());
-            return execution.execute(request, body);
-        }));
         return restTemplate;
     }
 
@@ -73,21 +61,35 @@ public class ApiService {
         return md5;
     }
 
-    public ResponseEntity<String> getSubjects() {
-        return restTemplate.getForEntity(configuration.getSubjectsUrl(), String.class);
+    public ResponseEntity<String> getSubjects(String cookie) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.COOKIE, cookie);
+        HttpEntity entity = new HttpEntity(headers);
+        return restTemplate.exchange(configuration.getSubjectsUrl(), HttpMethod.GET, entity, String.class);
+
     }
 
-    public ResponseEntity<String> getSubject(String id) {
-        return restTemplate.getForEntity(configuration.getSubjectUrl(), String.class, id);
+    public void getSubject(String id, String cookie) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.COOKIE, cookie);
+        HttpEntity entity = new HttpEntity(headers);
+
+        restTemplate.exchange(configuration.getSubjectUrl(), HttpMethod.GET, entity, String.class, id);
     }
 
 
-    public ResponseEntity<String> getQuestions() {
-        return restTemplate.getForEntity(configuration.getQuestionBankUrl(), String.class);
+    public ResponseEntity<String> getQuestions(String cookie) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.COOKIE, cookie);
+        HttpEntity entity = new HttpEntity(headers);
+        return restTemplate.exchange(configuration.getQuestionBankUrl(), HttpMethod.GET, entity, String.class);
     }
 
 
-    public ResponseEntity<String> getQuestion(String id) {
-        return restTemplate.getForEntity(configuration.getQuestionUrl(), String.class, id);
+    public ResponseEntity<String> getQuestion(String id, String cookie) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.COOKIE, cookie);
+        HttpEntity entity = new HttpEntity(headers);
+        return restTemplate.exchange(configuration.getQuestionUrl(), HttpMethod.GET, entity, String.class, id);
     }
 }

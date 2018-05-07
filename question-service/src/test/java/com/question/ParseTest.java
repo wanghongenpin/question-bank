@@ -28,40 +28,93 @@ public class ParseTest {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("question.html");
         Document doc = Jsoup.parse(inputStream, "utf-8", "http://example.com/");
         String describe = StringUtils.substringAfter(doc.select("div.q-content div").first().text(), "题型描述:").trim();
-        describe=StringUtils.substringBefore(describe," ");
-        Elements titleElements = doc.select("h4.test-title");
+        describe = StringUtils.substringBefore(describe, " ");
+        Element titleElement = doc.getElementsByClass("test-title").first();
         String title;
-        if (titleElements.select("q").isEmpty()) {
-            title = titleElements.first().text();
+        Elements pElements = titleElement.select("p");
+        if (pElements.isEmpty()) {
+            title = replaceImgSrc(titleElement);
         } else {
-            title = titleElements.select("q").first().text();
+            title = replaceImgSrc(pElements);
         }
         Elements elements = doc.select("div.shiti-item-left div");
         Elements answerIds = elements.select("p.answer");
         Elements answerNames = elements.select("div p").not("p.answer");
         List<Answer> answers = new ArrayList<>(answerIds.size());
-        String questionAnswer = null;
+        StringBuilder questionAnswer = new StringBuilder();
+
+        int rightCount = 1;
         for (int i = 0; i < answerIds.size(); i++) {
+
             Element element = answerIds.get(i);
             String id = element.attr("data-o-id").trim();
-            Element answerElement;
             String answer;
+            Element answerElement;
             if (answerNames.isEmpty()) {
                 answerElement = elements.select("div").not("div.yizuo").not("div[style]").get(i);
             } else {
                 answerElement = answerNames.get(i);
             }
-            answer = answerElement.text();
+            System.out.print("");
+            answer = replaceImgSrc(answerElement);
             boolean right = "1".equals(element.attr("data-o-right-flag"));
             if (right) {
-                questionAnswer = answer;
+                if (describe.contains("多选题")) {
+                    System.out.print("");
+
+                    questionAnswer.append(rightCount)
+                            .append(". ")
+                            .append(answer)
+                            .append("<br/>");
+                    rightCount++;
+                } else {
+                    questionAnswer.append(answer);
+                }
             }
             Answer a = Answer.builder().id(id).answer(answer).answerRight(right).build();
             answers.add(a);
         }
-        Question question = Question.builder().answer(questionAnswer).typeDescribe(describe).title(title).answers(answers).build();
+        String answer;
+        if (rightCount > 1) {
+            answer = questionAnswer.substring(0, questionAnswer.length() - 5);
+        } else {
+            answer = questionAnswer.toString();
+        }
+
+        Question question = Question.builder().answer(answer).typeDescribe(describe).title(title).answers(answers).build();
 //        System.out.println(text);
         System.out.println(question);
+    }
+
+    private String replaceImgSrc(Elements elements) {
+        Elements images = elements.select("img");
+        if (images.isEmpty()) {
+            return elements.text();
+        } else {
+            return elements.text() + images.stream().map(img -> {
+                String src = img.attr("src");
+                img.attr("src", "http://222.22.63.178" + src);
+                return img.outerHtml();
+            }).reduce("", String::concat);
+        }
+    }
+
+    private String replaceImgSrc(Element element) {
+        Elements images = element.select("img");
+        if (images.isEmpty()) {
+            return element.text();
+        }
+
+        List<String> srcList = images.stream().map(img -> {
+            System.out.println(img);
+            return img.attr("src");
+        }).collect(toList());
+        String html = element.html().trim();
+        for (String src : srcList) {
+            html = html.replace(src, "http://222.22.63.178" + src);
+        }
+        return html;
+
     }
 
     @Test

@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8080
 #eureka:
 #  client:
 #     serviceUrl:
@@ -11,9 +11,10 @@ spring:
   application:
     name: question-service
   datasource:
-    url: jdbc:mysql://localhost:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
+#    url: jdbc:mysql://198.13.50.124:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: wanghe
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:

@@ -15,9 +15,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -54,15 +54,17 @@ public class WebLogAspect {
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
         Long startTime = System.currentTimeMillis();
         String method = request.getMethod();
+        String remoteAddr = request.getRemoteAddr();
 
         if (methods.contains(method)) {
             String uri = request.getRequestURI();
             Object[] args = joinPoint.getArgs();
             requestLogger
-                    .info("Method: {}, URI: {}, RequestBody: {}", method, uri, JSON.toJSONString(args));
+                    .info("Method: {}, URI: {}, remoteAddr: {}, RequestBody: {}", method, uri, remoteAddr, JSON.toJSONString(args));
         }
         startTimeLocal.set(startTime);
 
@@ -74,15 +76,20 @@ public class WebLogAspect {
     @AfterReturning("webLog()")
     public void doAfterReturning() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
+        HttpServletResponse response = attributes.getResponse();
 
         String method = request.getMethod();
-        String uri = request.getRequestURI();
+        String query = request.getQueryString() == null ? "" : "?" + request.getQueryString();
+        String uri = request.getRequestURI() + query;
         String remoteAddr = request.getRemoteAddr();
+        assert response != null;
+        int status = response.getStatus();
         Long endTime = System.currentTimeMillis();
         Long requestTime = endTime - startTimeLocal.get();
         String mark = requestTime > SLOW_TIME ? "SLOW" : "NORMAL";
         accessLogger
-                .info("{} {} {} {} {} {}", method, uri, remoteAddr, accessCount.getAndIncrement(), requestTime, mark);
+                .info("{} {} {} {} {} {} {}", method, uri, remoteAddr, accessCount.getAndIncrement(), status, requestTime, mark);
     }
 }

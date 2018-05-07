@@ -14,12 +14,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * @author wanghongen
@@ -60,7 +58,7 @@ public class HtmlParse {
         return Optional.ofNullable(user);
     }
 
-    public List<Subject> parseSubjectList(String subjectListHtml) {
+    public Set<Subject> parseSubjectList(String subjectListHtml) {
         Document doc = Jsoup.parse(subjectListHtml);
         Elements elements = doc.select("div[class=contain]").select("div[class=class-list-ner] ul");
         return elements.stream()
@@ -77,7 +75,7 @@ public class HtmlParse {
                             }).collect(toList());
                 })
                 .flatMap(Collection::stream)
-                .collect(toList());
+                .collect(toSet());
     }
 
 
@@ -94,12 +92,13 @@ public class HtmlParse {
         Document doc = Jsoup.parse(questionHtml);
         String describe = StringUtils.substringAfter(doc.select("div.q-content div").first().text(), "题型描述:").trim();
         describe = StringUtils.substringBefore(describe, " ");
-        Elements titleElements = doc.select("h4.test-title");
+        Element titleElement = doc.getElementsByClass("test-title").first();
         String title;
-        if (titleElements.select("q").isEmpty()) {
-            title = titleElements.first().text();
+        Elements pElements = titleElement.select("p");
+        if (pElements.isEmpty()) {
+            title = replaceImgSrc(titleElement);
         } else {
-            title = titleElements.select("q").first().text();
+            title = replaceImgSrc(pElements);
         }
         Elements elements = doc.select("div.shiti-item-left div");
         Elements answerIds = elements.select("p.answer");
@@ -119,9 +118,8 @@ public class HtmlParse {
             } else {
                 answerElement = answerNames.get(i);
             }
-            answer = answerElement.html().trim();
+            answer = replaceImgSrc(answerElement);
             boolean right = "1".equals(element.attr("data-o-right-flag"));
-
             if (right) {
                 if (describe.contains("多选题")) {
                     questionAnswer.append(rightCount).append(". ").append(answer).append("<br/>");
@@ -140,6 +138,32 @@ public class HtmlParse {
             answer = questionAnswer.toString();
         }
         return Question.builder().typeDescribe(describe).answer(answer).title(title).answers(answers).build();
+    }
+
+    private String replaceImgSrc(Elements elements) {
+        Elements images = elements.select("img");
+        if (images.isEmpty()) {
+            return elements.text();
+        }
+
+        return elements.text() + images.stream().map(img -> {
+            String src = img.attr("src");
+            img.attr("src", "http://222.22.63.178" + src);
+            return img.outerHtml();
+        }).reduce("", String::concat);
+    }
+
+    private String replaceImgSrc(Element element) {
+        Elements images = element.select("img");
+        if (images.isEmpty()) {
+            return element.text();
+        } else {
+            return element.text() + images.stream().map(img -> {
+                String src = img.attr("src");
+                img.attr("src", "http://222.22.63.178" + src);
+                return img.outerHtml();
+            }).reduce("", String::concat);
+        }
     }
 }
 

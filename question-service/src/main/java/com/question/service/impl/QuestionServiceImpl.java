@@ -16,17 +16,20 @@ import com.question.service.SubjectService;
 import com.question.service.UserService;
 import com.question.utils.cache.CacheService;
 import com.question.utils.concurrent.QuestionExecutorService;
+import com.question.utils.stream.CompletableFutureCollector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author wanghongen
@@ -59,7 +62,7 @@ public class QuestionServiceImpl implements QuestionService {
         log.info("解析token  username: {}, token: {}", username, tokenOptional);
         return tokenOptional.map(token -> {
             cacheService.set(username, token);
-            QuestionExecutorService.executorService.submit(() -> this.crawlingQuestionBank(username, password, token));
+            this.crawlingQuestionBank(username, password, token);
             return token;
         });
     }
@@ -95,7 +98,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    @Transactional
     public Question saveQuestion(Question question) {
         LocalDateTime now = LocalDateTime.now();
         question.setCreatedTime(now);
@@ -104,7 +106,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Answer> answers = question.getAnswers()
                 .stream()
                 .peek(answer -> answer.setQuestionId(save.getId()))
-                .collect(Collectors.toList());
+                .collect(toList());
         save.setAnswers(answerRepository.saveAll(answers));
         return save;
     }
@@ -116,53 +118,55 @@ public class QuestionServiceImpl implements QuestionService {
             log.info("解析用户 user: {}", JSON.toJSONString(u));
             u.setPassword(password);
             return userService.saveUser(u);
-        }).orElseGet(User::new);
-
-        String session = apiService.subjectBankLogin(token);
-        cacheService.set(session);
-
-        String subjectListHtml = apiService.getSubjects().getBody();
-        log.info("查询学科列表 {}", subjectListHtml);
-
-        List<Subject> subjects = parse.parseSubjectList(subjectListHtml);
-        log.info("解析学科列表 {}", JSON.toJSONString(subjects));
-        subjects.forEach(subject -> {
-            cacheService.set(session);
-            subject.setCreatedUsername(user.getUsername());
-            subject.setOwnerSpecialty(user.getSpecialty());
-            subjectService.saveSubject(subject);
-            apiService.getSubject(subject.getId());
-
-            String questionsHtml = apiService.getQuestions().getBody();
-            log.info("查询试题列表 {}", questionsHtml);
-
-            List<JSONObject> maps = parse.parseQuestions(questionsHtml);
-            log.info("解析试题列表 size:{}, {}", maps.size(), JSON.toJSONString(maps));
-            QuestionExecutorService.executorService.submit(() -> {
-                cacheService.set(session);
-                maps.forEach(map -> {
-                    String id = map.getString("id");
-                    String type = map.getString("type");
-                    try {
-                        String questionHtml = apiService.getQuestion(id).getBody();
-                        log.info("查询试题 {}", questionHtml);
-                        Question question = parse.parseQuestion(questionHtml);
-                        log.info("解析试题 {}", JSON.toJSONString(question));
-
-                        question.setId(id);
-                        question.setOwnerSubject(subject.getName());
-                        question.setOwnerSpecialty(user.getSpecialty());
-                        question.setType(type);
-                        question.setCreatedUsername(user.getUsername());
-                        this.saveQuestion(question);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                cacheService.remove(username);
-            });
+        }).orElseThrow(() -> {
+            cacheService.remove(username);
+            return new RuntimeException("无效token");
         });
+
+        CompletableFuture.supplyAsync(() -> apiService.subjectBankLogin(token))
+                .thenApply((cookie) -> {
+                    String subjectListHtml = apiService.getSubjects(cookie).getBody();
+                    log.info("查询学科列表 {}", subjectListHtml);
+                    Set<Subject> subjects = parse.parseSubjectList(subjectListHtml);
+
+                    log.info("解析学科列表 {}", JSON.toJSONString(subjects));
+
+                    return subjects.stream().map(subject -> {
+                        subject.setCreatedUsername(user.getUsername());
+                        subject.setOwnerSpecialty(user.getSpecialty());
+                        subjectService.saveSubject(subject);
+                        apiService.getSubject(subject.getId(), cookie);
+
+                        String questionsHtml = apiService.getQuestions(cookie).getBody();
+                        log.info("查询试题列表 {}", questionsHtml);
+
+                        List<JSONObject> maps = parse.parseQuestions(questionsHtml);
+                        log.info("解析试题列表 size:{}, {}", maps.size(), JSON.toJSONString(maps));
+                        return CompletableFuture.supplyAsync(() -> {
+                            maps.forEach(map -> {
+                                String id = map.getString("id");
+                                String type = map.getString("type");
+                                try {
+                                    String questionHtml = apiService.getQuestion(id, cookie).getBody();
+                                    log.info("查询试题 {}", questionHtml);
+                                    Question question = parse.parseQuestion(questionHtml);
+                                    log.info("解析试题 {}", JSON.toJSONString(question));
+
+                                    question.setId(id);
+                                    question.setOwnerSubject(subject.getName());
+                                    question.setOwnerSpecialty(user.getSpecialty());
+                                    question.setType(type);
+                                    question.setCreatedUsername(user.getUsername());
+                                    this.saveQuestion(question);
+
+                                } catch (Exception e) {
+                                    log.error("保存试题失败 message: {}, e:{} ", e.getMessage(), e);
+                                }
+                            });
+                            return Void.TYPE;
+                        }, QuestionExecutorService.executorService);
+                    }).collect(CompletableFutureCollector.collectResult())
+                            .thenAccept((result) -> cacheService.remove(username));
+                });
     }
 }

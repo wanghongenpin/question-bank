@@ -12,18 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class CacheService {
     private static Map<String, Object> cacheMap = new ConcurrentHashMap<>();
-    private static ThreadLocal<Object> threadLocal = new ThreadLocal<>();
 
     public <T> T set(String key, T value) {
         return (T) cacheMap.put(key, value);
-    }
-
-    public <T> void set(T value) {
-        threadLocal.set(value);
-    }
-
-    public <T> T get() {
-        return (T) threadLocal.get();
     }
 
     public <T> T get(String key) {
