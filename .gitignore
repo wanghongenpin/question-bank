@@ -26,5 +26,6 @@
 
 /logs
 *.log
+*/logs/*
 
 rebel.xml

@@ -23,8 +23,15 @@ import static java.util.stream.Collectors.toList;
  * 2018/5/2
  */
 public class ParseTest {
+    private static String apply(Element img) {
+        String src = img.attr("src");
+        img.attr("src", "http://222.22.63.178" + src);
+        return img.outerHtml();
+    }
+
     @Test
     public void testParseQuestion() throws IOException {
+
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("question.html");
         Document doc = Jsoup.parse(inputStream, "utf-8", "http://example.com/");
         String describe = StringUtils.substringAfter(doc.select("div.q-content div").first().text(), "题型描述:").trim();
@@ -39,7 +46,6 @@ public class ParseTest {
         }
         Elements elements = doc.select("div.shiti-item-left div");
         Elements answerIds = elements.select("p.answer");
-        Elements answerNames = elements.select("div p").not("p.answer");
         List<Answer> answers = new ArrayList<>(answerIds.size());
         StringBuilder questionAnswer = new StringBuilder();
 
@@ -51,13 +57,8 @@ public class ParseTest {
             Element element = answerIds.get(index);
             String id = element.attr("data-o-id").trim();
             String answer;
-            Element answerElement;
-            if (answerNames.isEmpty()) {
-                answerElement = elements.select("div").not("div.yizuo").not("div[style]").get(index);
-            } else {
-                answerElement = answerNames.get(index);
-            }
-            answer = replaceImgSrc(answerElement);
+
+            answer = replaceImgSrc(element.nextElementSibling());
             String option;
             Elements span = element.select("span");
             if (span.isEmpty()) {
@@ -66,18 +67,20 @@ public class ParseTest {
                 option = span.first().text().substring(0, 1);
             }
 
+            if (StringUtils.isBlank(answer))
+                answer = option;
             optionOwnerMap.put(option, answer);
             boolean right = optionText.contains(option);
             Answer a = Answer.builder().id(id).answer(answer).answerRight(right).build();
             answers.add(a);
         }
-        String[] ownerOptions = optionText.split(" ");
+        String[] ownerOptions = " ".split(optionText);
         if (ownerOptions.length > 1) {
             for (int i = 0; i < ownerOptions.length; i++) {
-                questionAnswer.append(i+1)
+                questionAnswer.append(i + 1)
                         .append(". ")
                         .append(optionOwnerMap.get(ownerOptions[i]));
-                if (i < ownerOptions.length - 1) {
+                if (i < (ownerOptions.length - 1)) {
                     questionAnswer.append("<br/>");
                 }
             }
@@ -86,6 +89,7 @@ public class ParseTest {
             questionAnswer.append(value == null ? "" : value);
         }
         String answer = questionAnswer.toString();
+        System.out.println(optionOwnerMap);
         System.out.println(answer);
         Question question = Question.builder().answer(answer).typeDescribe(describe).title(title).answers(answers).build();
         System.out.println(question);
@@ -94,19 +98,19 @@ public class ParseTest {
     private String replaceImgSrc(Elements elements) {
         Elements images = elements.select("img");
         if (images.isEmpty()) {
+            if (elements.text().isEmpty())
+                return elements.select("p").html();
             return elements.text();
         } else {
-            return elements.text() + images.stream().map(img -> {
-                String src = img.attr("src");
-                img.attr("src", "http://222.22.63.178" + src);
-                return img.outerHtml();
-            }).reduce("", String::concat);
+            return elements.text() + images.stream().map(ParseTest::apply).reduce("", String::concat);
         }
     }
 
     private String replaceImgSrc(Element element) {
         Elements images = element.select("img");
         if (images.isEmpty()) {
+            if (element.text().isEmpty())
+                return element.select("p").html();
             return element.text();
         }
 
@@ -131,6 +135,7 @@ public class ParseTest {
         String data = first.get().data();
         String questionsJson = StringUtils.substringBetween(data, "var questionsJson = ", ";");
         List<Map> maps = JSON.parseArray(questionsJson, Map.class);
+        System.out.println(maps);
     }
 
     @Test

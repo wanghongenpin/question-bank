@@ -75,7 +75,7 @@ public class ApiService {
         headers.set(HttpHeaders.COOKIE, cookie);
         HttpEntity entity = new HttpEntity(headers);
 
-        return restTemplate.exchange(configuration.getSubjectUrl(), HttpMethod.GET, entity, String.class, id);
+        return restTemplate.exchange(configuration.getSubjectQuestionsUrl(), HttpMethod.GET, entity, String.class, id);
     }
 
 

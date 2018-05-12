@@ -13,4 +13,5 @@ public class QuestionQueries {
     private String title;
     private String subject;
     private String questionType;
+    private String answer;
 }

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -91,6 +92,9 @@ public class QuestionServiceImpl implements QuestionService {
         if (queries.getQuestionType() != null) {
             question.setTypeDescribe(queries.getQuestionType());
         }
+        if (queries.getAnswer() != null) {
+            question.setAnswer(queries.getAnswer());
+        }
         //创建匹配器，即如何使用查询条件
         ExampleMatcher matcher = ExampleMatcher.matching() //构建对象
                 .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains());
@@ -116,6 +120,11 @@ public class QuestionServiceImpl implements QuestionService {
                 .collect(toList());
         save.setAnswers(answerRepository.saveAll(answers));
         return save;
+    }
+
+    @Override
+    public List<Question> batchSaveQuestion(Iterable<Question> questions) {
+        return questionRepository.saveAll(questions);
     }
 
     private void crawlingQuestionBank(String username, String password, String token) {

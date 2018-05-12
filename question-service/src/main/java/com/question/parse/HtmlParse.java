@@ -15,6 +15,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -102,42 +103,35 @@ public class HtmlParse {
         }
         Elements elements = doc.select("div.shiti-item-left div");
         Elements answerIds = elements.select("p.answer");
-        Elements answerNames = elements.select("div p").not("p.answer");
-        List<Answer> answers = new ArrayList<>(answerIds.size());
         StringBuilder questionAnswer = new StringBuilder();
 
         Map<String, String> optionOwnerMap = new HashMap<>();
         String optionText = doc.select("div.tip-container b").text();
 
-        for (int i = 0; i < answerIds.size(); i++) {
-
-            Element element = answerIds.get(i);
+        AtomicBoolean first = new AtomicBoolean(true);
+        final List<Answer> answers = answerIds.stream().map(element -> {
             String id = element.attr("data-o-id").trim();
-            String answer;
-            Element answerElement;
-            if (answerNames.isEmpty()) {
-                answerElement = elements.select("div").not("div.yizuo").not("div[style]").get(i);
-            } else {
-                answerElement = answerNames.get(i);
-            }
-            answer = replaceImgSrc(answerElement);
+            String answer = replaceImgSrc(element.nextElementSibling());
             String option;
             Elements span = element.select("span");
             if (span.isEmpty()) {
-                option = i == 0 ? "A" : "B";
+                option = first.get() ? "A" : "B";
+                first.set(false);
             } else {
                 option = span.first().text().substring(0, 1);
             }
-
+            if (StringUtils.isBlank(answer))
+                answer = option;
             optionOwnerMap.put(option, answer);
             boolean right = optionText.contains(option);
-            Answer a = Answer.builder().id(id).answer(answer).answerRight(right).build();
-            answers.add(a);
-        }
+            return Answer.builder().id(id).answer(answer).answerRight(right).build();
+        }).collect(toList());
+
+
         String[] ownerOptions = optionText.split(" ");
         if (ownerOptions.length > 1) {
             for (int i = 0; i < ownerOptions.length; i++) {
-                questionAnswer.append(i+1)
+                questionAnswer.append(i + 1)
                         .append(". ")
                         .append(optionOwnerMap.get(ownerOptions[i]));
                 if (i < ownerOptions.length - 1) {
@@ -155,6 +149,8 @@ public class HtmlParse {
     private String replaceImgSrc(Elements elements) {
         Elements images = elements.select("img");
         if (images.isEmpty()) {
+            if (elements.text().isEmpty())
+                return elements.select("p").html();
             return elements.text();
         }
 
@@ -168,6 +164,8 @@ public class HtmlParse {
     private String replaceImgSrc(Element element) {
         Elements images = element.select("img");
         if (images.isEmpty()) {
+            if (element.text().isEmpty())
+                return element.select("p").html();
             return element.text();
         } else {
             return element.text() + images.stream().map(img -> {

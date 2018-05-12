@@ -4,6 +4,7 @@ import com.question.model.Question;
 import com.question.queries.QuestionQueries;
 import org.springframework.data.domain.Page;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,6 @@ public interface QuestionService {
     List<String> getAllQuestionType();
 
     Question saveQuestion(Question question);
+
+    List<Question> batchSaveQuestion(Iterable<Question> questions);
 }

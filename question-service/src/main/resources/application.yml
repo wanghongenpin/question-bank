@@ -18,7 +18,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: wang1995@
+#    password: wang1995@
     database: 2
 
   jpa:
@@ -44,6 +44,6 @@ api:
     userInfoUrl: http://123.15.57.59/vls2s/vls3isapi.dll/personalinfo?ptopid={1}
     subjectBankLoginUrl: http://222.22.63.178//student/wsdlLogin?ptopid={1}
     subjectsUrl: http://222.22.63.178/student/courseList
-    subjectUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
+    subjectQuestionsUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
     questionUrl: http://222.22.63.178/student/getQuestion?qId={1}&isSimulate=1
 
