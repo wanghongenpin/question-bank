@@ -55,10 +55,11 @@ public class ApiService {
     public String subjectBankLogin(String token) {
         HttpHeaders requestHeaders = new HttpHeaders();
         String md5 = Md5Crypt.md5Crypt(token.getBytes());
-        requestHeaders.set("Cookie", "zdyj2web=" + md5);
+        String cookie = "zdyj2web=" + md5;
+        requestHeaders.set("Cookie", cookie);
         HttpEntity<String> requestEntity = new HttpEntity<>(null, requestHeaders);
         restTemplate.exchange(configuration.getSubjectBankLoginUrl(), HttpMethod.GET, requestEntity, String.class, token);
-        return md5;
+        return cookie;
     }
 
     public ResponseEntity<String> getSubjects(String cookie) {
@@ -69,20 +70,12 @@ public class ApiService {
 
     }
 
-    public void getSubject(String id, String cookie) {
+    public ResponseEntity<String> getSubjectQuestions(String id, String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
         HttpEntity entity = new HttpEntity(headers);
 
-        restTemplate.exchange(configuration.getSubjectUrl(), HttpMethod.GET, entity, String.class, id);
-    }
-
-
-    public ResponseEntity<String> getQuestions(String cookie) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.COOKIE, cookie);
-        HttpEntity entity = new HttpEntity(headers);
-        return restTemplate.exchange(configuration.getQuestionBankUrl(), HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(configuration.getSubjectUrl(), HttpMethod.GET, entity, String.class, id);
     }
 
 

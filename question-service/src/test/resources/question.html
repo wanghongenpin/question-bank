@@ -1,127 +1,99 @@
-<div class="q-content subjective" data-q-id="8b5a063a6391412686b9e7abb2e0200b">
-    <div>题型描述: 绘图题 </div>
 
 
 
-    <div class="shiti-item cl q-item subjective" data-q-id="8b5a063a6391412686b9e7abb2e0200b">
-        <h4 class="test-title" style="width: 88%"><p><span style="font-size:14px;font-family:黑体">正方形</span><span style="font-size:14px;font-family:&#39;Times New Roman&#39;,&#39;serif&#39;">ABCD</span><span style="font-size:14px;font-family:黑体">为铅垂面，对角线</span><span style="font-size:14px;font-family:&#39;Times New Roman&#39;,&#39;serif&#39;">AC</span><span style="font-size:14px;font-family:黑体">为水平线，</span><span style="font-size: 14px;font-family:&#39;Times New Roman&#39;,&#39;serif&#39;">B</span><span style="font-size:14px;font-family:黑体">在</span><span style="font-size:14px;font-family:&#39;Times New Roman&#39;,&#39;serif&#39;">A</span><span style="font-size:14px;font-family:黑体">右下方，求该正方形的三面投影</span></p><p><span style="font-size:14px;font-family:黑体"><img src="/ueditor/jsp/upload/image/20180207/1517994654008072002.png" title="1517994654008072002.png" alt="新图片(54).png"/></span></p></h4>
 
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="q-content " data-q-id="002102031001">
+    <div>题型描述: 单选题 </div>
+    <div class="shiti-item cl q-item" data-q-id="002102031001">
+        <h4 class="test-title">
+            <p>在以下关于C语言的叙述中，正确的说法是：</p>
+        </h4>
         <span class="favor-tag-off" onclick="collect(this)"
               data-is-collect="false">收藏</span>
-
-
-        <div id="reviewAnswer_8b5a063a6391412686b9e7abb2e0200b"></div>
-
-
-        <div class="float-r ma-wrap">
-            <img id="qr_8b5a063a6391412686b9e7abb2e0200b">
+        <div class="shiti-wapper cl">
+            <div class="shiti-item-left">
+                <div class="options-container yizuo">
+                    <p class="answer" data-o-id="0021020310011" data-o-right-flag="0"
+                       onclick="answer(this)">
+                        <i></i>
+                        <span>A.</span>
+                    </p>
+                    <div>
+                        <p>C语言比汇编语言快</p>
+                    </div>
+                    <div style="clear: both"></div>
+                    <p class="answer" data-o-id="0021020310013" data-o-right-flag="0"
+                       onclick="answer(this)">
+                        <i></i>
+                        <span>B.</span>
+                    </p>
+                    <div>
+                        <p>C语言比BASIC语言和汇编语言都快</p>
+                    </div>
+                    <div style="clear: both"></div>
+                    <p class="answer" data-o-id="0021020310012" data-o-right-flag="1"
+                       onclick="answer(this)">
+                        <i></i>
+                        <span>C.</span>
+                    </p>
+                    <div>
+                        <p>C语言比BASIC语言快</p>
+                    </div>
+                    <div style="clear: both"></div>
+                    <p class="answer" data-o-id="0021020310014" data-o-right-flag="0"
+                       onclick="answer(this)">
+                        <i></i>
+                        <span>D.</span>
+                    </p>
+                    <div>
+                        <p>C语言比BASIC语言慢</p>
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
         </div>
-        <div class="clear"></div>
-        <p class="ma-text">扫一扫上传图</p>
-        <div class="clear"></div>
-        <button id="review_8b5a063a6391412686b9e7abb2e0200b" class="float-r li0 float-l btn" type="button">预览</button>
-
-
-        <div class="edit-wrap">
-            <textarea id="textarea_8b5a063a6391412686b9e7abb2e0200b" style="width: 100%; height: 250px;"></textarea>
-
-        </div>
-
-
-
-
     </div>
-    <script>
-        $(function () {
-            /*UE.getEditor('ue_8b5a063a6391412686b9e7abb2e0200b', {
-                toolbars: [[
-                    'fullscreen', 'undo', 'redo', '|',
-                    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-                    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-                    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-                    'directionalityltr', 'directionalityrtl', 'indent', '|',
-                    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-                    'scrawl', '|',
-                    'horizontal', 'date', 'time', 'spechars', '|',
-                    'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', '|',
-                    'preview', 'searchreplace'
-                ]]
-            });*/
-
-            initQr();
-
-            $('#review_8b5a063a6391412686b9e7abb2e0200b').click(reviewAnswerImg);
-        });
-
-        function initQr() {
-            var params = 'questionId=' + '8b5a063a6391412686b9e7abb2e0200b';
-            if($('#label').length > 0) {
-                params += '&examId=' + $('#label').val();
-            }
-
-            if($('[name="id"]').length > 0) {
-                params += '&examId=' + $('[name="id"]').val();
-            }
-
-            if($('#examTimeStamp').length > 0) {
-                params += '&examTimeStamp=' + $('#examTimeStamp').val();
-            }
-
-            if($('#examTimes').length > 0) {
-                params += '&examTimes=' + $('#examTimes').val();
-            }
-
-            $('#qr_8b5a063a6391412686b9e7abb2e0200b').attr('src', '/mobile/qr/getQr?dw=2&code=' + encodeURIComponent('http://' + window.location.host + '/mobile/qr/questionView?' + params));
-        }
-
-        function reviewAnswerImg() {
-            var params = 't=' + new Date().getTime() + '&questionId=8b5a063a6391412686b9e7abb2e0200b';
-//        var params = 'questionId=14e77b5b9d064c4db893c1912000dec5&examId=ec5ac22033d74e4aa4fb1f4ab8356d77';
-            if($('#label').length > 0) {
-                params += '&examId=' + $('#label').val();
-            }
-            if($('[name="id"]').length > 0) {
-                params += '&examId=' + $('[name="id"]').val();
-            }
-            $('#reviewAnswer_8b5a063a6391412686b9e7abb2e0200b').load('/student/reviewAnswerImg?' + params);
-//        window.open('/student/reviewAnswerImg?' + params);
-        }
-
-        /*function openOffice(qId) {
-            if($('#datika').length > 0) {
-                $('#datika').find('td[data-d-id="' + qId + '"]').addClass('dui');
-            }
-            var examId = $('#examForm').find('[name="id"]').val() ? $('#examForm').find('[name="id"]').val() : $('#label').val();
-            POBrowser.openWindow('/office?examId=' + examId + '&questionId=' + qId);
-        }
-
-        function saveOffice() {
-            if(document.getElementById('8b5a063a6391412686b9e7abb2e0200b').IsDirty) {
-                if(confirm("提示：文档已被修改，是否继续关闭放弃保存 ？")) {
-                    return true;
-                }else{
-                    return false;
-                }
-            }
-        }*/
-    </script>
+    <div class="tip-container" style="display: none;">
+        <p class="dacuo">
+            <label>回答错误！</label>正确答案：
+            <b>
 
 
 
 
 
+                C
+
+
+
+            </b>
+        </p>
+    </div>
     <div class="tip-container">
         <button class="li0  btn posin_r float-l answerSubmitBtn" type="button" onclick="answerSubmit()">提交</button>
-        <button class="grey-b btn btn_defaul_a posin_r mar_l float-l xq_btn_8b5a063a6391412686b9e7abb2e0200b" type="button"
+        <button class="grey-b btn btn_defaul_a posin_r mar_l float-l xq_btn_002102031001" type="button"
                 style="display: none"
-                onclick="openShutManager(this,'see-answer_8b5a063a6391412686b9e7abb2e0200b',false,'关闭详解','查看详解')">查看详解</button>
+                onclick="openShutManager(this,'see-answer_002102031001',false,'关闭详解','查看详解')">查看详解</button>
     </div>
     <div class="clear"></div>
-    <div id="see-answer_8b5a063a6391412686b9e7abb2e0200b" style="display: none;">
+    <div id="see-answer_002102031001" style="display: none;">
         <div class="explain-container fenxi-container">
-            <div class="title"><span class="name">试题详解</span></div>
+            <div class="title">
+                <span class="name">试题详解</span>
+            </div>
             <div class="ef-content">没有详解</div>
         </div>
     </div>
-
 </div>

@@ -43,46 +43,51 @@ public class ParseTest {
         List<Answer> answers = new ArrayList<>(answerIds.size());
         StringBuilder questionAnswer = new StringBuilder();
 
-        int rightCount = 1;
-        for (int i = 0; i < answerIds.size(); i++) {
+        Map<String, String> optionOwnerMap = new HashMap<>();
+        String optionText = doc.select("div.tip-container b").text();
 
-            Element element = answerIds.get(i);
+        for (int index = 0; index < answerIds.size(); index++) {
+
+            Element element = answerIds.get(index);
             String id = element.attr("data-o-id").trim();
             String answer;
             Element answerElement;
             if (answerNames.isEmpty()) {
-                answerElement = elements.select("div").not("div.yizuo").not("div[style]").get(i);
+                answerElement = elements.select("div").not("div.yizuo").not("div[style]").get(index);
             } else {
-                answerElement = answerNames.get(i);
+                answerElement = answerNames.get(index);
             }
-            System.out.print("");
             answer = replaceImgSrc(answerElement);
-            boolean right = "1".equals(element.attr("data-o-right-flag"));
-            if (right) {
-                if (describe.contains("多选题")) {
-                    System.out.print("");
-
-                    questionAnswer.append(rightCount)
-                            .append(". ")
-                            .append(answer)
-                            .append("<br/>");
-                    rightCount++;
-                } else {
-                    questionAnswer.append(answer);
-                }
+            String option;
+            Elements span = element.select("span");
+            if (span.isEmpty()) {
+                option = index == 0 ? "A" : "B";
+            } else {
+                option = span.first().text().substring(0, 1);
             }
+
+            optionOwnerMap.put(option, answer);
+            boolean right = optionText.contains(option);
             Answer a = Answer.builder().id(id).answer(answer).answerRight(right).build();
             answers.add(a);
         }
-        String answer;
-        if (rightCount > 1) {
-            answer = questionAnswer.substring(0, questionAnswer.length() - 5);
+        String[] ownerOptions = optionText.split(" ");
+        if (ownerOptions.length > 1) {
+            for (int i = 0; i < ownerOptions.length; i++) {
+                questionAnswer.append(i+1)
+                        .append(". ")
+                        .append(optionOwnerMap.get(ownerOptions[i]));
+                if (i < ownerOptions.length - 1) {
+                    questionAnswer.append("<br/>");
+                }
+            }
         } else {
-            answer = questionAnswer.toString();
+            String value = optionOwnerMap.get(optionText.trim());
+            questionAnswer.append(value == null ? "" : value);
         }
-
+        String answer = questionAnswer.toString();
+        System.out.println(answer);
         Question question = Question.builder().answer(answer).typeDescribe(describe).title(title).answers(answers).build();
-//        System.out.println(text);
         System.out.println(question);
     }
 

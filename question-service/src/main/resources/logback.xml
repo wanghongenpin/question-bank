@@ -54,11 +54,11 @@
         </encoder>
     </appender>
 
-    <logger name="access" level="INFO" additivity="false">
+    <logger name="access" level="INFO" >
         <appender-ref ref="ACCESS_FILE"/>
     </logger>
 
-    <logger name="request" level="INFO" additivity="false">
+    <logger name="request" level="INFO" >
         <appender-ref ref="REQUEST_FILE" />
     </logger>
 

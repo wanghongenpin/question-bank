@@ -10,6 +10,10 @@ import java.util.concurrent.*;
  */
 @Service
 public class QuestionExecutorService {
-    public static final ExecutorService executorService = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors() * 4,
+//    ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 0L, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
+
+
+    public static final ExecutorService loginExecutorService = Executors.newCachedThreadPool();
+    public static final ExecutorService executorService = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors() * 6,
             0L, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
 }

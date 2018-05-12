@@ -11,15 +11,20 @@ spring:
   application:
     name: question-service
   datasource:
-#    url: jdbc:mysql://198.13.50.124:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
     url: jdbc:mysql://127.0.0.1:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    password: wanghe!
     driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: wang1995@
+    database: 2
+
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   thymeleaf:
     mode: HTML5
@@ -27,6 +32,7 @@ spring:
     servlet:
       content-type: text/html
     cache: false
+
 
 logging:
   level:
@@ -39,6 +45,5 @@ api:
     subjectBankLoginUrl: http://222.22.63.178//student/wsdlLogin?ptopid={1}
     subjectsUrl: http://222.22.63.178/student/courseList
     subjectUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
-    questionBankUrl: http://222.22.63.178/student/exercise
     questionUrl: http://222.22.63.178/student/getQuestion?qId={1}&isSimulate=1
 

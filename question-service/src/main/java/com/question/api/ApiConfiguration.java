@@ -17,6 +17,5 @@ public class ApiConfiguration {
     private String subjectBankLoginUrl;
     private String subjectsUrl;
     private String subjectUrl;
-    private String questionBankUrl;
     private String questionUrl;
 }

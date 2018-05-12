@@ -106,7 +106,9 @@ public class HtmlParse {
         List<Answer> answers = new ArrayList<>(answerIds.size());
         StringBuilder questionAnswer = new StringBuilder();
 
-        int rightCount = 1;
+        Map<String, String> optionOwnerMap = new HashMap<>();
+        String optionText = doc.select("div.tip-container b").text();
+
         for (int i = 0; i < answerIds.size(); i++) {
 
             Element element = answerIds.get(i);
@@ -119,24 +121,34 @@ public class HtmlParse {
                 answerElement = answerNames.get(i);
             }
             answer = replaceImgSrc(answerElement);
-            boolean right = "1".equals(element.attr("data-o-right-flag"));
-            if (right) {
-                if (describe.contains("多选题")) {
-                    questionAnswer.append(rightCount).append(". ").append(answer).append("<br/>");
-                    rightCount++;
-                } else {
-                    questionAnswer.append(answer);
-                }
+            String option;
+            Elements span = element.select("span");
+            if (span.isEmpty()) {
+                option = i == 0 ? "A" : "B";
+            } else {
+                option = span.first().text().substring(0, 1);
             }
+
+            optionOwnerMap.put(option, answer);
+            boolean right = optionText.contains(option);
             Answer a = Answer.builder().id(id).answer(answer).answerRight(right).build();
             answers.add(a);
         }
-        String answer;
-        if (rightCount > 1) {
-            answer = questionAnswer.substring(0, questionAnswer.length() - 5);
+        String[] ownerOptions = optionText.split(" ");
+        if (ownerOptions.length > 1) {
+            for (int i = 0; i < ownerOptions.length; i++) {
+                questionAnswer.append(i+1)
+                        .append(". ")
+                        .append(optionOwnerMap.get(ownerOptions[i]));
+                if (i < ownerOptions.length - 1) {
+                    questionAnswer.append("<br/>");
+                }
+            }
         } else {
-            answer = questionAnswer.toString();
+            String value = optionOwnerMap.get(optionText.trim());
+            questionAnswer.append(value == null ? "" : value);
         }
+        String answer = questionAnswer.toString();
         return Question.builder().typeDescribe(describe).answer(answer).title(title).answers(answers).build();
     }
 

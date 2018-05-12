@@ -19,6 +19,8 @@ import com.question.utils.concurrent.QuestionExecutorService;
 import com.question.utils.stream.CompletableFutureCollector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,11 @@ public class QuestionServiceImpl implements QuestionService {
     private CacheService cacheService;
     @Resource
     private HtmlParse parse;
+
+    @Resource(name = "stringRedisTemplate")
+    private StringRedisTemplate redisTemplate;
+
+    private String subjectExcludeKey = "subject:crawling:exclude";
 
     @Override
     public Optional<String> uploadUserQuestionBank(String username, String password) {
@@ -122,50 +129,56 @@ public class QuestionServiceImpl implements QuestionService {
             cacheService.remove(username);
             return new RuntimeException("无效token");
         });
-
-        CompletableFuture.supplyAsync(() -> apiService.subjectBankLogin(token))
+        CompletableFuture.supplyAsync(() -> apiService.subjectBankLogin(token), QuestionExecutorService.loginExecutorService)
                 .thenApply((cookie) -> {
                     String subjectListHtml = apiService.getSubjects(cookie).getBody();
                     log.info("查询学科列表 {}", subjectListHtml);
                     Set<Subject> subjects = parse.parseSubjectList(subjectListHtml);
 
                     log.info("解析学科列表 {}", JSON.toJSONString(subjects));
+                    final SetOperations<String, String> setOperations = redisTemplate.opsForSet();
 
-                    return subjects.stream().map(subject -> {
-                        subject.setCreatedUsername(user.getUsername());
-                        subject.setOwnerSpecialty(user.getSpecialty());
-                        subjectService.saveSubject(subject);
-                        apiService.getSubject(subject.getId(), cookie);
+                    return subjects.stream().filter(subject -> {
+                        final Boolean member = setOperations.isMember(subjectExcludeKey, subject.getName());
+                        log.info("学科爬取 subject: {}, isMember:{} ", subject.getName(), member);
+                        return member == null || !member;
+                    })
+                            .map(subject -> CompletableFuture.supplyAsync(() -> {
+                                subject.setCreatedUsername(user.getUsername());
+                                subject.setOwnerSpecialty(user.getSpecialty());
+                                subjectService.saveSubject(subject);
+                                String questionsHtml = apiService.getSubjectQuestions(subject.getId(), cookie).getBody();
 
-                        String questionsHtml = apiService.getQuestions(cookie).getBody();
-                        log.info("查询试题列表 {}", questionsHtml);
+                                log.info("查询试题列表 {}", questionsHtml);
 
-                        List<JSONObject> maps = parse.parseQuestions(questionsHtml);
-                        log.info("解析试题列表 size:{}, {}", maps.size(), JSON.toJSONString(maps));
-                        return CompletableFuture.supplyAsync(() -> {
-                            maps.forEach(map -> {
-                                String id = map.getString("id");
-                                String type = map.getString("type");
-                                try {
-                                    String questionHtml = apiService.getQuestion(id, cookie).getBody();
-                                    log.info("查询试题 {}", questionHtml);
-                                    Question question = parse.parseQuestion(questionHtml);
-                                    log.info("解析试题 {}", JSON.toJSONString(question));
+                                List<JSONObject> maps = parse.parseQuestions(questionsHtml);
+                                log.info("解析试题列表 size:{}, {}", maps.size(), JSON.toJSONString(maps));
+                                maps.forEach(map -> {
+                                    String id = map.getString("id");
+                                    String type = map.getString("type");
+                                    String questionHtml = null;
+                                    try {
+                                        questionHtml = apiService.getQuestion(id, cookie).getBody();
+                                        log.debug("查询试题 {}", questionHtml);
+                                        Question question = parse.parseQuestion(questionHtml);
 
-                                    question.setId(id);
-                                    question.setOwnerSubject(subject.getName());
-                                    question.setOwnerSpecialty(user.getSpecialty());
-                                    question.setType(type);
-                                    question.setCreatedUsername(user.getUsername());
-                                    this.saveQuestion(question);
+                                        question.setId(id);
+                                        question.setOwnerSubject(subject.getName());
+                                        question.setOwnerSpecialty(user.getSpecialty());
+                                        question.setType(type);
+                                        question.setCreatedUsername(user.getUsername());
+                                        log.info("解析试题 {}", JSON.toJSONString(question));
+                                        saveQuestion(question);
 
-                                } catch (Exception e) {
-                                    log.error("保存试题失败 message: {}, e:{} ", e.getMessage(), e);
-                                }
-                            });
-                            return Void.TYPE;
-                        }, QuestionExecutorService.executorService);
-                    }).collect(CompletableFutureCollector.collectResult())
+                                    } catch (Exception e) {
+                                        log.error("查询试题 {}", questionHtml);
+
+                                        log.error("保存试题失败 message: {}, e:{} ", e.getMessage(), e);
+                                    }
+                                });
+                                setOperations.add(subjectExcludeKey, subject.getName());
+                                return Void.TYPE;
+                            }, QuestionExecutorService.executorService)).collect(CompletableFutureCollector.collectResult())
                             .thenAccept((result) -> cacheService.remove(username));
                 });
     }
