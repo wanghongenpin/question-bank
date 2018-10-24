@@ -19,18 +19,16 @@ import com.question.utils.concurrent.QuestionExecutorService;
 import com.question.utils.stream.CompletableFutureCollector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static java.util.stream.Collectors.toList;
 
@@ -56,8 +54,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Resource
     private HtmlParse parse;
 
-    @Resource(name = "stringRedisTemplate")
-    private StringRedisTemplate redisTemplate;
+    private LinkedBlockingQueue<String> subjectExcludes = new LinkedBlockingQueue<>();
 
     private String subjectExcludeKey = "subject:crawling:exclude";
 
@@ -145,13 +142,8 @@ public class QuestionServiceImpl implements QuestionService {
                     Set<Subject> subjects = parse.parseSubjectList(subjectListHtml);
 
                     log.info("解析学科列表 {}", JSON.toJSONString(subjects));
-                    final SetOperations<String, String> setOperations = redisTemplate.opsForSet();
 
-                    return subjects.stream().filter(subject -> {
-                        final Boolean member = setOperations.isMember(subjectExcludeKey, subject.getName());
-                        log.info("学科爬取 subject: {}, isMember:{} ", subject.getName(), member);
-                        return member == null || !member;
-                    })
+                    return subjects.stream().filter(subject -> !subjectExcludes.contains(subject.getName()))
                             .map(subject -> CompletableFuture.supplyAsync(() -> {
                                 subject.setCreatedUsername(user.getUsername());
                                 subject.setOwnerSpecialty(user.getSpecialty());
@@ -185,7 +177,7 @@ public class QuestionServiceImpl implements QuestionService {
                                         log.error("保存试题失败 message: {}, e:{} ", e.getMessage(), e);
                                     }
                                 });
-                                setOperations.add(subjectExcludeKey, subject.getName());
+                                subjectExcludes.add(subject.getName());
                                 return Void.TYPE;
                             }, QuestionExecutorService.executorService)).collect(CompletableFutureCollector.collectResult())
                             .thenAccept((result) -> cacheService.remove(username));

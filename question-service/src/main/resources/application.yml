@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
 #eureka:
 #  client:
 #     serviceUrl:
@@ -18,7 +18,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-#    password: wang1995@
+    password: wang1995@
     database: 2
 
   jpa:
