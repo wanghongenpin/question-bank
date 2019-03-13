@@ -14,6 +14,6 @@ public class QuestionExecutorService {
 
 
     public static final ExecutorService loginExecutorService = Executors.newCachedThreadPool();
-    public static final ExecutorService executorService = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors() * 6,
-            0L, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
+    public static final ExecutorService executorService = new ThreadPoolExecutor(1, Runtime.getRuntime().availableProcessors() + 2,
+            30, TimeUnit.SECONDS, new SynchronousQueue<>(), new ThreadPoolExecutor.CallerRunsPolicy());
 }
