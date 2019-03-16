@@ -1,5 +1,6 @@
 package com.queries.events;
 
+import com.queries.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.context.ApplicationEvent;
@@ -22,7 +23,6 @@ public class UploadQueriesEvent extends ApplicationEvent {
     @Data
     public static class UserQueries {
         private String token;
-        private String username;
-        private String password;
+        private User user;
     }
 }

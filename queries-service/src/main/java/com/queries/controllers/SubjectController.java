@@ -14,7 +14,7 @@ import java.util.List;
  * 2018/5/6
  */
 @RestController
-@RequestMapping("/questions/subjects")
+@RequestMapping("/queries/subjects")
 public class SubjectController {
     @Resource
     private SubjectService subjectService;

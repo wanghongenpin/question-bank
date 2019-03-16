@@ -2,6 +2,7 @@ package com.queries.services.impl;
 
 import com.queries.dao.SubjectRepository;
 import com.queries.models.Subject;
+import com.queries.models.User;
 import com.queries.services.SubjectService;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,10 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject saveSubject(Subject subject) {
+    public Subject saveSubject(Subject subject, User user) {
+        subject.setCreatedUsername(user.getUsername());
+        subject.setOwnerSpecialty(user.getSpecialty());
+
         LocalDateTime now = LocalDateTime.now();
         subject.setCreatedTime(now);
         subject.setUpdatedTime(now);

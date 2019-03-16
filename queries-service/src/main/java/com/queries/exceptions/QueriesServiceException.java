@@ -12,7 +12,7 @@ public enum QueriesServiceException implements ApiExceptionFactory {
     /* internalApiExceptionCode = "6000"*/
 
     IllegalUserException(ResultCode.USERNAME_OR_PASSWORD_ERROR.getCode(), ResultCode.USERNAME_OR_PASSWORD_ERROR.getMessage()),
-    IllegalTokenException("4001", "正在爬取,请勿登陆郑州大学网站"),
+    IllegalTokenException("4001", "无效令牌,请勿登陆郑州大学网站"),
 
     RejectedExecutionException("4002", "当前爬取任务过多,请稍后上传题库"),
     ;

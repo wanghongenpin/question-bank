@@ -17,6 +17,10 @@ public class CacheService {
         return (T) cacheMap.put(key, value);
     }
 
+    public <T> T setIfAbsent(String key, T value) {
+        return (T) cacheMap.putIfAbsent(key, value);
+    }
+
     public <T> T get(String key) {
         return (T) cacheMap.get(key);
     }

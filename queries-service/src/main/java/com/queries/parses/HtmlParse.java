@@ -63,7 +63,7 @@ public class HtmlParse {
     }
 
     public Set<Subject> parseSubjectList(String subjectListHtml) {
-        log.info("查询学科列表 {}", subjectListHtml);
+        log.debug("查询学科列表 {}", subjectListHtml);
         Document doc = Jsoup.parse(subjectListHtml);
         Elements elements = doc.select("div[class=contain]").select("div[class=class-list-ner] ul");
 

@@ -1,17 +1,20 @@
 package com.queries.api;
 
-import com.common.utils.MD5;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
+import com.common.utils.Either;
+import com.common.utils.Try;
+import com.queries.exceptions.ApiException;
+import com.queries.exceptions.QueriesServiceException;
+import com.queries.exceptions.RestApiException;
 import org.springframework.http.*;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.nio.charset.Charset;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * @author wanghongen
@@ -26,13 +29,6 @@ public class ApiService {
     @Resource
     private ApiConfiguration configuration;
 
-    @Bean
-    public RestTemplate restTemplate() {
-        StringHttpMessageConverter messageConverter = new StringHttpMessageConverter(Charset.forName("GBK"));
-        RestTemplate restTemplate = new RestTemplateBuilder().build();
-        restTemplate.getMessageConverters().set(0, messageConverter); // 支持中文编码
-        return restTemplate;
-    }
 
     public ResponseEntity<String> login(String username, String password) {
         HttpHeaders headers = new HttpHeaders();
@@ -52,14 +48,29 @@ public class ApiService {
         return restTemplate.getForEntity(configuration.getUserInfoUrl(), String.class, token);
     }
 
-    public String subjectBankLogin(String token) {
-        HttpHeaders requestHeaders = new HttpHeaders();
-        String md5 = MD5.md5(token);
-        String cookie = "zdyj2web=" + md5;
-        requestHeaders.set("Cookie", cookie);
-        HttpEntity<String> requestEntity = new HttpEntity<>(null, requestHeaders);
-        restTemplate.exchange(configuration.getSubjectBankLoginUrl(), HttpMethod.GET, requestEntity, String.class, token);
-        return cookie;
+    /**
+     * 使用cookie来实现登陆的
+     * 一个token对应cookie
+     */
+    public Either<ApiException, String> subjectBankLogin(String token) {
+
+        return Try.apply(() -> {
+
+            URL url = URI.create(configuration.getSubjectBankLoginUrl() + token).toURL();
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
+            urlConnection.getInputStream().close();
+            //获取重定向URL上cookie
+            String path = urlConnection.getURL().getPath();
+            int indexOf = path.lastIndexOf(";");
+            if (indexOf < 0) {
+                return Either.<ApiException, String>left(QueriesServiceException.IllegalTokenException.build());
+            }
+            return Either.<ApiException, String>right(path.substring(indexOf + 1));
+        }).recover(e -> {
+            e.printStackTrace();
+            return Either.left(new RestApiException("RA5001", "登陆失败," + e.getMessage()));
+        }).get();
     }
 
     public ResponseEntity<String> getSubjects(String cookie) {

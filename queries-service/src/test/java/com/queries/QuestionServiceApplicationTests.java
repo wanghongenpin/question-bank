@@ -1,20 +1,26 @@
 package com.queries;
 
+import com.common.utils.Either;
 import com.common.utils.MD5;
 import com.queries.api.ApiService;
+import com.queries.exceptions.ApiException;
 import com.queries.models.Question;
 import com.queries.parses.HtmlParse;
 import com.queries.services.QuestionService;
 import com.queries.services.SubjectService;
 import com.queries.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Collection;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @Slf4j
 public class QuestionServiceApplicationTests {
     public static void main(String[] args) {
@@ -33,16 +39,16 @@ public class QuestionServiceApplicationTests {
     @Resource
     private UserService userService;
 
-//    @Test
+    @Test
     public void contextLoads() throws InterruptedException {
 //        User user = userService.getUser("16212116009").get();
 //        System.out.println(user);
-        String cookie = apiService.subjectBankLogin("3C258E57F9DB4362A4C07ED135FF911B&");
-        System.out.println(cookie);
+        Either<ApiException, String> apiExceptionStringEither = apiService.subjectBankLogin("3C258E57F9DB4362A4C07ED135FF911B&");
+        System.out.println(apiExceptionStringEither);
 
 //        String cookie = "zdyj2web=1EA6C9B87FD2414FB0E9A0070AA57F18";
         System.out.println("-------------------------------------");
-        ResponseEntity<String> subjects = apiService.getSubjects(cookie);
+        ResponseEntity<String> subjects = apiService.getSubjects(apiExceptionStringEither.getRight());
         System.out.println(subjects);
     }
 

@@ -122,6 +122,10 @@ public abstract class Either<L, R> implements Serializable {
             }
         }
 
+        @Override
+        public String toString() {
+            return getLeft().toString();
+        }
     }
 
     public static class Right<L, R> extends Either<L, R> {
@@ -195,5 +199,9 @@ public abstract class Either<L, R> implements Serializable {
             }
         }
 
+        @Override
+        public String toString() {
+            return this.getRight().toString();
+        }
     }
 }

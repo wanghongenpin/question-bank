@@ -22,6 +22,7 @@ import javax.persistence.*;
 })
 public class Answer {
     @Id
+    @Column(length = 32)
     private String id;
     private String questionId;
     @Column(length = 2000)

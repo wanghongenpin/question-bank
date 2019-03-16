@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -18,8 +17,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(indexes = {@Index(name = "idx_name", columnList = "name", unique = true)})
 public class Subject {
     @Id
+    @Column(length = 32)
     private String id;
     private String ownerSpecialty; //归属专业
     private String name;

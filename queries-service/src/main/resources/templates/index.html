@@ -71,7 +71,7 @@
 
 <script type="text/javascript">
     $("#table").bootstrapTable({ // 对应table标签的id
-        url: "/questions", // 获取表格数据的url
+        url: "/queries/questions", // 获取表格数据的url
         cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
         // striped: true,//设置为 true 会有隔行变色效果
         pagination: true, // 在表格底部显示分页组件，默认false
@@ -169,7 +169,7 @@
 
 
             $.ajax({
-                url: "/users/upload",
+                url: "/queries/users/upload",
                 data: {username: username, password: password},
                 method: "post",
                 dataType: "json",
@@ -196,7 +196,7 @@
         });
 
         $.ajax({
-            url: "/questions/subjects/names",
+            url: "/queries/subjects/names",
             dataType: "json",
             success: function (data) {
                 $("#subject-name").prepend('<li><a href=\"#\">学科</a></li>');
@@ -211,7 +211,7 @@
         });
 
         $.ajax({
-            url: "/questions/types",
+            url: "/queries/questions/types",
             dataType: "json",
             success: function (data) {
                 $("#question-type").prepend('<li><a href=\"#\">试题类型</a></li>');

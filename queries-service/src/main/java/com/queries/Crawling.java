@@ -5,13 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.common.utils.CompletableFutureCollector;
 import com.queries.api.ApiService;
 import com.queries.events.UploadQueriesEvent;
+import com.queries.exceptions.QueriesServiceException;
 import com.queries.models.Question;
 import com.queries.models.Subject;
 import com.queries.models.User;
 import com.queries.parses.HtmlParse;
 import com.queries.services.QuestionService;
 import com.queries.services.SubjectService;
-import com.queries.services.UserService;
 import com.queries.utils.cache.CacheService;
 import com.queries.utils.concurrent.QuestionExecutorService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +33,6 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class Crawling {
     @Resource
-    private UserService userService;
-    @Resource
     private SubjectService subjectService;
     @Resource
     private QuestionService questionService;
@@ -51,39 +49,39 @@ public class Crawling {
         log.info("上传题库事件 [{}]", JSONObject.toJSONString(uploadQueriesEvent.getSource()));
         UploadQueriesEvent.UserQueries source = uploadQueriesEvent.getSource();
 
-        crawlingQuestionBank(source.getToken(), source.getUsername(), source.getPassword());
+        crawlingQuestionBank(source.getToken(), source.getUser());
     }
 
-    private void crawlingQuestionBank(String token, String username, String password) {
-
-        String userHtml = apiService.getUserInfo(token).getBody();
-        Optional<User> user = parse.parseUser(userHtml);
-        if (!user.isPresent()) {
-            log.warn("解析用户失败 [token: {}, username: {}, password: {}]", token, username, password);
+    private void crawlingQuestionBank(String token, User user) {
+        //正在爬取跳过
+        if (cacheService.setIfAbsent(token, user) != null) {
+            return;
         }
 
-        user.ifPresent(u -> {
-            log.info("解析用户 user: {}", JSON.toJSONString(u));
-            u.setPassword(password);
-            userService.saveUser(u);
-            cacheService.set(username, token);
+        //根据token登陆考试系统
+        apiService.subjectBankLogin(token).fold(e -> {
+            //token无效重试一次
+            if (e.getErrorCode().equals(QueriesServiceException.IllegalTokenException.build().getErrorCode())) {
+                String loginHtml = apiService.login(user.getUsername(), user.getPassword()).getBody();
+                return parse.parseToken(loginHtml).flatMap(userToken -> apiService.subjectBankLogin(userToken).fold(ex -> Optional.empty(), Optional::ofNullable));
+            }
 
-            String cookie = apiService.subjectBankLogin(token);
+            return Optional.<String>empty();
+        }, Optional::ofNullable).ifPresent(cookie -> {
+
             String subjectListHtml = apiService.getSubjects(cookie).getBody();
             Set<Subject> subjects = parse.parseSubjectList(subjectListHtml);
 
-            log.info("解析学科列表 {}", JSON.toJSONString(subjects));
+            log.info("解析学科列表 {} [{}]", cookie, JSON.toJSONString(subjects));
             subjects.stream()
                     .filter(subject -> !subjectService.containsSubject(subject.getName()))
                     .map(subject ->
                             CompletableFuture.runAsync(() -> {
-                                subject.setCreatedUsername(username);
-                                subject.setOwnerSpecialty(u.getSpecialty());
-                                subjectService.saveSubject(subject);
+                                subjectService.saveSubject(subject, user);
                                 String questionsHtml = apiService.getSubjectQuestions(subject.getId(), cookie).getBody();
 
                                 List<JSONObject> maps = parse.parseQuestions(questionsHtml);
-                                log.info("解析试题列表 size:{}, {}", maps.size(), JSON.toJSONString(maps));
+                                log.info("解析试题列表 {} [size:{}, {}]", cookie, maps.size(), JSON.toJSONString(maps));
                                 maps.forEach(map -> {
                                     String id = map.getString("id");
                                     String type = map.getString("type");
@@ -93,10 +91,10 @@ public class Crawling {
 
                                         question.setId(id);
                                         question.setOwnerSubject(subject.getName());
-                                        question.setOwnerSpecialty(u.getSpecialty());
+                                        question.setOwnerSpecialty(user.getSpecialty());
                                         question.setType(type);
-                                        question.setCreatedUsername(u.getUsername());
-                                        log.info("解析试题 {}", JSON.toJSONString(question));
+                                        question.setCreatedUsername(user.getUsername());
+                                        log.info("解析试题 {} [{}]", cookie, JSON.toJSONString(question));
                                         questionService.saveQuestion(question);
 
                                     } catch (Exception e) {
@@ -105,8 +103,7 @@ public class Crawling {
                                 });
                             }, QuestionExecutorService.executorService))
                     .collect(CompletableFutureCollector.collectResult())
-                    .thenRun(() -> cacheService.remove(username));
-
+                    .thenRun(() -> cacheService.remove(user.getUsername()));
         });
 
     }

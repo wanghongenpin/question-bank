@@ -27,7 +27,7 @@ import java.util.List;
         uniqueConstraints = @UniqueConstraint(columnNames = {"title", "answer"}))
 public class Question {
     @Id
-    @Column(unique = true)
+    @Column(length = 32)
     private String id;
     private String ownerSpecialty; //归属
     private String ownerSubject; //归属学科

@@ -13,11 +13,10 @@ import java.util.Optional;
 public interface UserService {
     /**
      * 上传用户题库
-     *
-     * @param username 用户名
+     *  @param username 用户名
      * @param password 密码
      */
-    Either<ApiException, String> uploadUserQuestionBank(String username, String password);
+    Either<ApiException, User> uploadUserQuestionBank(String username, String password);
 
     Optional<User> getUser(String username);
 

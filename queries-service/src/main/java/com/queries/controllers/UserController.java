@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * 2019-03-15
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/queries/users")
 public class UserController {
     @Resource
     private CacheService cacheService;

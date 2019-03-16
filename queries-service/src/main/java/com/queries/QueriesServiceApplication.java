@@ -23,7 +23,7 @@ public class QueriesServiceApplication {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setThreadNamePrefix("QueriesAsyncTaskExecutor-");
         executor.setMaxPoolSize(Math.max(Runtime.getRuntime().availableProcessors() * 2, 6));
-        executor.setCorePoolSize(Math.max(Runtime.getRuntime().availableProcessors() * 2, 3));
+        executor.setCorePoolSize(Math.max(Runtime.getRuntime().availableProcessors() * 2, 2));
         executor.setQueueCapacity(32);
         return executor;
     }

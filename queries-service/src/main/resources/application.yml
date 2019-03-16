@@ -31,8 +31,9 @@ spring:
       ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
   thymeleaf:
-    mode: HTML5
+    mode: HTML
     encoding: UTF-8
     servlet:
       content-type: text/html
@@ -52,7 +53,7 @@ api:
   urls:
     loginUrl: http://123.15.57.15/sss/zzjlogin.dll/login
     userInfoUrl: http://123.15.57.59/vls2s/vls3isapi.dll/personalinfo?ptopid={1}
-    subjectBankLoginUrl: http://222.22.63.178/student/wsdlLogin?ptopid={1}
+    subjectBankLoginUrl: http://222.22.63.178/student/wsdlLogin?ptopid=
     subjectsUrl: http://222.22.63.178/student/courseList
     subjectQuestionsUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
     questionUrl: http://222.22.63.178/student/getQuestion?qId={1}&isSimulate=1

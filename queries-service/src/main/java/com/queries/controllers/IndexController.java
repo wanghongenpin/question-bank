@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 2018/5/5
  */
 @Controller
-@RequestMapping("/questions")
+@RequestMapping("/queries")
 public class IndexController {
     @GetMapping("/")
     public String index() {
