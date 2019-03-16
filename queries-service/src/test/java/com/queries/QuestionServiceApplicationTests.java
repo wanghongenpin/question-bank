@@ -10,17 +10,13 @@ import com.queries.services.QuestionService;
 import com.queries.services.SubjectService;
 import com.queries.services.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Collection;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 @Slf4j
 public class QuestionServiceApplicationTests {
     public static void main(String[] args) {
@@ -39,7 +35,7 @@ public class QuestionServiceApplicationTests {
     @Resource
     private UserService userService;
 
-    @Test
+    //    @Test
     public void contextLoads() throws InterruptedException {
 //        User user = userService.getUser("16212116009").get();
 //        System.out.println(user);
