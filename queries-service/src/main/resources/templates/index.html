@@ -152,7 +152,7 @@
 
         $("#upload-question").on("click", function () {
             var _this = $(this);
-            $(this).button("爬取中");//禁用按钮并显示提交中
+            $(this).attr("disabled", true);//禁用按钮并显示提交中
 
             var username = $("#username").val();
             var password = $("#password").val()
@@ -163,7 +163,7 @@
                         '<strong></strong>用户名和密码不能为空' +
                         '</div>');
                 }
-                _this.button('reset');//重置按钮
+                _this.removeAttr("disabled");//重置按钮
                 return
             }
 
@@ -174,7 +174,7 @@
                 method: "post",
                 dataType: "json",
                 success: function (data) {
-                    _this.button('reset');//重置按钮
+                    _this.removeAttr("disabled");//重置按钮
                     if (data.success) {
                         if ($("div.alert-success").length <= 0) {
                             $(".jumbotron").prepend('<div class="alert alert-success alert-dismissible" role="alert">' +
@@ -186,7 +186,7 @@
                         if ($("div.alert-danger").length <= 0) {
                             $(".jumbotron").prepend('<div class="alert alert-danger alert-dismissible" role="alert">' +
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-                                '<strong></strong>' + data.data +
+                                '<strong></strong>' + data.message +
                                 '</div>');
                         }
                     }

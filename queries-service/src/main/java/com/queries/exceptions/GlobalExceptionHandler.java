@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import java.io.IOException;
+
 import static java.util.stream.Collectors.joining;
 
 /**
@@ -79,7 +81,7 @@ public class GlobalExceptionHandler {
         }
         final String url = request.getMethod() + ' ' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString());
         //忽略HEAD请求
-        if (!request.getMethod().equalsIgnoreCase("HEAD")) {
+        if (!request.getMethod().equalsIgnoreCase("HEAD") && !(exception instanceof IOException && "Connection reset by peer".equalsIgnoreCase(exception.getMessage()))) {
             emailAlarm.alarm("请求服务异常 " + url, exception);
             exception.printStackTrace();
         }
