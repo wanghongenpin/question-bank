@@ -22,10 +22,13 @@ import javax.persistence.*;
 })
 public class Answer {
     @Id
-    @Column(length = 32)
+    @Column(name = "id", length = 46, unique = true)
     private String id;
     private String questionId;
     @Column(length = 2000)
     private String answer;
     private boolean answerRight;
+
+    private transient String symbol;
+
 }

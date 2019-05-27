@@ -12,10 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "api.urls")
 public class ApiConfiguration {
+    private String host;
+    private String homepageHost;
+    private String testPaperHost;
     private String loginUrl;
     private String userInfoUrl;
-    private String subjectBankLoginUrl;
-    private String subjectsUrl;
-    private String subjectQuestionsUrl;
+    private String questionBankLoginUrl;
+    private String coursesUrl;
+    private String courseQuestionsUrl;
     private String questionUrl;
+    private String testPaperUrl;
 }

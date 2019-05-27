@@ -1,27 +1,28 @@
 package com.queries;
 
-import com.common.utils.Either;
 import com.common.utils.MD5;
 import com.queries.api.ApiService;
-import com.queries.exceptions.ApiException;
-import com.queries.models.Question;
 import com.queries.parses.HtmlParse;
+import com.queries.services.CourseService;
 import com.queries.services.QuestionService;
-import com.queries.services.SubjectService;
 import com.queries.services.UserService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.apache.commons.text.StringEscapeUtils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-@Slf4j
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class QuestionServiceApplicationTests {
     public static void main(String[] args) {
         String md5 = MD5.md5("4AAE443188A94A4DAA4A3438B238C199");
         System.out.println(md5);
+        final String s = StringEscapeUtils.unescapeHtml4("p ＝ &amp;x");
+        System.out.println(s);
     }
 
     @Resource
@@ -31,27 +32,28 @@ public class QuestionServiceApplicationTests {
     @Resource
     private QuestionService questionService;
     @Resource
-    private SubjectService subjectService;
+    private CourseService courseService;
     @Resource
     private UserService userService;
+    @Resource
+    private Crawling crawling;
 
-    //    @Test
+    @Test
     public void contextLoads() throws InterruptedException {
 //        User user = userService.getUser("16212116009").get();
 //        System.out.println(user);
-        Either<ApiException, String> apiExceptionStringEither = apiService.subjectBankLogin("3C258E57F9DB4362A4C07ED135FF911B&");
-        System.out.println(apiExceptionStringEither);
-
+//        Either<ApiException, String> apiExceptionStringEither = apiService.courseBankLogin("3C258E57F9DB4362A4C07ED135FF911B&");
+//        System.out.println(apiExceptionStringEither);
+//        apiService.learningCourses("2D35CF22CFB3450AA4CE46B0D0AE73BB").forEach(System.out::println);
 //        String cookie = "zdyj2web=1EA6C9B87FD2414FB0E9A0070AA57F18";
-        System.out.println("-------------------------------------");
-        ResponseEntity<String> subjects = apiService.getSubjects(apiExceptionStringEither.getRight());
-        System.out.println(subjects);
-    }
-
-    private void save(Collection<Question> questions) {
-        if (questions.size() >= 50) {
-            questionService.batchSaveQuestion(questions);
-        }
+//        crawling.crawlingTestPaper("19106606055", "网上学习导论", "698A86D026844600A86DEA432B250315", "00340104", "271731016987");
+//        crawling.automaticOnlineTestPaper("1D3011818C54489BB2E9EA0DC2E1868A");
+//        TimeUnit.MINUTES.sleep(3);
+//        System.out.println("-------------------------------------
+//        System.out.println(questionService.getQuestion("000103081008"));
+//        ResponseEntity<String> courses = apiService.getQuestion("000103091010", "zdyj2web=66156CB052BC4FE66990329F85894F9D");
+//        Question question = parse.parseQuestion(courses.getBody());
+//        System.out.println(question.getAnswer());
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -73,7 +74,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result<String> handleApiException(Throwable exception, HttpServletRequest request) {
+    public Result<String> handleApiException(Throwable exception, HttpServletRequest request, HttpServletResponse response) {
         if (exception instanceof ApiException) {
             ApiException e = (ApiException) exception;
 
@@ -81,7 +82,7 @@ public class GlobalExceptionHandler {
         }
         final String url = request.getMethod() + ' ' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString());
         //忽略HEAD请求
-        if (!request.getMethod().equalsIgnoreCase("HEAD") && !(exception instanceof IOException && "Connection reset by peer".equalsIgnoreCase(exception.getMessage()))) {
+        if (response.getStatus() != 405 && request.getMethod().equalsIgnoreCase("HEAD") && !(exception instanceof IOException && "Connection reset by peer".equalsIgnoreCase(exception.getMessage()))) {
             emailAlarm.alarm("请求服务异常 " + url, exception);
             exception.printStackTrace();
         }

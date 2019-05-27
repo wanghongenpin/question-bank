@@ -1,10 +1,10 @@
 package com.queries.services.impl;
 
-import com.queries.dao.AnswerRepository;
 import com.queries.dao.QuestionRepository;
 import com.queries.models.Answer;
 import com.queries.models.Question;
 import com.queries.request.QuestionQuery;
+import com.queries.services.AnswerService;
 import com.queries.services.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
@@ -27,23 +27,41 @@ public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionRepository questionRepository;
     @Resource
-    private AnswerRepository answerRepository;
+    private AnswerService answerService;
 
-//    private String subjectExcludeKey = "subject:crawling:exclude";
+//    private String courseExcludeKey = "course:crawling:exclude";
 
     @Override
     public Optional<Question> getQuestion(String id) {
-        return questionRepository.findById(id);
+        return questionRepository.findById(id).map(question -> {
+            final List<Answer> answers = answerService.findAnswerByQuestionId(question.getId());
+            question.setAnswers(answers);
+            return question;
+        });
+    }
+
+    @Override
+    public Optional<Question> getQuestion(String id, String question) {
+        final Optional<Question> optionalQuestion = getQuestion(id);
+        return optionalQuestion.isPresent() ? optionalQuestion : getByQuestion(question);
+    }
+
+    private Optional<Question> getByQuestion(String question) {
+        return questionRepository.findFirstByQuestion(question).map(q -> {
+            final List<Answer> answers = answerService.findAnswerByQuestionId(q.getId());
+            q.setAnswers(answers);
+            return q;
+        });
     }
 
     @Override
     public Page<Question> list(QuestionQuery query) {
         Question question = new Question();
-        if (query.getTitle() != null) {
-            question.setTitle(query.getTitle());
+        if (query.getQuestion() != null) {
+            question.setQuestion(query.getQuestion());
         }
-        if (query.getSubject() != null) {
-            question.setOwnerSubject(query.getSubject());
+        if (query.getCourse() != null) {
+            question.setCourse(query.getCourse());
         }
         if (query.getQuestionType() != null) {
             question.setTypeDescribe(query.getQuestionType());
@@ -53,7 +71,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
         //创建匹配器，即如何使用查询条件
         ExampleMatcher matcher = ExampleMatcher.matching() //构建对象
-                .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains());
+                .withMatcher("question", ExampleMatcher.GenericPropertyMatchers.contains());
         Example<Question> example = Example.of(question, matcher);
         Pageable pageable = PageRequest.of(query.getPage(), query.getSize());
         return questionRepository.findAll(example, pageable);
@@ -74,7 +92,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .stream()
                 .peek(answer -> answer.setQuestionId(save.getId()))
                 .collect(toList());
-        save.setAnswers(answerRepository.saveAll(answers));
+        save.setAnswers(answerService.batchSaveAnswer(answers));
         return save;
     }
 

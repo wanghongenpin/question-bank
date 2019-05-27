@@ -10,8 +10,8 @@ import lombok.Data;
 public class QuestionQuery {
     private int page = 1;
     private int size = 10;
-    private String title;
-    private String subject;
+    private String question;
+    private String course;
     private String questionType;
     private String answer;
 }

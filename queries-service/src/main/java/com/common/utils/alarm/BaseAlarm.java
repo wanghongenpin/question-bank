@@ -3,8 +3,8 @@ package com.common.utils.alarm;
 import com.common.DaemonThreadFactory;
 import com.common.utils.IpUtils;
 import com.common.utils.QuestionStringUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;

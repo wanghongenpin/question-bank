@@ -17,7 +17,7 @@ import java.util.List;
  * 2018/5/5
  */
 @RestController
-@RequestMapping("/queries/questions")
+@RequestMapping("/questions")
 public class QuestionController {
     @Resource
     private QuestionService questionService;
@@ -25,11 +25,11 @@ public class QuestionController {
     @GetMapping
     public Result<Page<Question>> list(QuestionQuery queries) {
         Page<Question> list = questionService.list(queries);
-        return Result.success(list);
+        return Result.successful(list);
     }
 
     @GetMapping("/types")
     public Result<List<String>> getAllQuestionType() {
-        return Result.success(questionService.getAllQuestionType());
+        return Result.successful(questionService.getAllQuestionType());
     }
 }

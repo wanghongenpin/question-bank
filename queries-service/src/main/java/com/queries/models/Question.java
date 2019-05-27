@@ -20,21 +20,18 @@ import java.util.List;
 @Entity
 @Table(
         indexes = {
-                @Index(name = "idx_owner_subject", columnList = "ownerSubject"),
+                @Index(name = "idx_ourse", columnList = "course"),
                 @Index(name = "idx_type_describe", columnList = "typeDescribe")
-//        @Index(name = "idx_title", columnList = "title")
-        },
-        uniqueConstraints = @UniqueConstraint(columnNames = {"title", "answer"}))
+        })
 public class Question {
     @Id
     @Column(length = 32)
     private String id;
-    private String ownerSpecialty; //归属
-    private String ownerSubject; //归属学科
+    private String course; //课程
     private String typeDescribe; //
     private String type; //
     @Column(length = 6000)
-    private String title; //
+    private String question; //
     @Column(length = 2000)
     private String answer; //
     @Transient

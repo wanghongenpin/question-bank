@@ -1,0 +1,195 @@
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <title></title>
+    <style>
+        TABLE {FONT-FAMILY: "宋体"; FONT-SIZE: 12px;word-break :break-all}
+        .blue {COLOR: white; FONT-FAMILY: "宋体"; FONT-SIZE: 12px}
+        A:link {COLOR: black; TEXT-DECORATION: none}
+        A:visited {COLOR: black; TEXT-DECORATION: none}
+        A:hover {COLOR: red; TEXT-DECORATION: underline}
+        .unnamed1 { font-size: 12px; text-decoration: none; color: #000000}
+    </style>
+    <script language="javascript">
+        function mygetdata(pnum)
+        { if (pnum=='0'){myform1108.pn.value=myform1108.pn2.value}
+        else{myform1108.pn.value=pnum}
+            myform1108.submit();  }
+        function mygetdata2(s11)
+        { myform1108.os.value=s11;
+            myform1108.submit();  }
+        function mygetdata3(fun1)
+        { myform1108.wheres2.value=fun1+';'+myform1108.qfnam.value+';'+myform1108.myGong.value+';'+myform1108.myQueryText.value;
+            myform1108.submit();  }
+    </script>
+</head>
+<body topmargin="10" leftmargin="6" background="http://123.15.57.74/images/main_b1.gif">
+<div align="center">
+    <table border="0" width="826" cellspacing="0" cellpadding="0">
+        <form method="POST" name="myform1108" action="http://123.15.57.74/vls2s/vls3isapi.dll/myviewdatalist"></form>
+        <tbody>
+        <tr>
+            <td height="23" background="http://123.15.57.74/images/title_t2.gif">&nbsp;<font color="#FF0000"><span style="font-size: 12px"> 銆婂ぇ瀛﹁嫳璇璉銆嬪湪绾挎祴璇�</span></font></td>
+        </tr>
+        <tr>
+            <td height="23" bgcolor="#DFDFDF">
+                <table border="1" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse" height="100%" bordercolor="#ACACAC">
+                    <tbody>
+                    <tr>
+                        <td height="23">&nbsp; 查询<select size="1" name="qfnam" style="font-size: 12px" onchange="javascript:mygetdata3('ff')"><option selected value="*">显示全部数据</option><option value="章编号">章编号</option><option value="章序号">章序号</option><option value="章名称">章名称</option><option value="测试次数">测试次数</option><option value="最好分数">最好分数</option><option value="最后测试日期">最后测试日期</option><option value="自测题说明">自测题说明</option></select><select size="1" name="myGong" style="font-size: 12px"> <option selected value="like">包含</option><option value="=">等于</option><option value="not like">不包含</option><option value="<>">不等于</option><option value=">=">大于等于</option><option value="<=">小于等于</option></select> <input type="text" name="myQueryText" size="20" style="font-size: 12px; font-family: 宋体; color: #0000FF" value=""><input type="button" value="查询" onCLick="javascript:mygetdata3('qq')" name="myQueryButton" style="color: #0000FF; font-size: 12px"></td>
+                    </tr>
+                    <tr>
+                        <td height="26">&nbsp; 共10条&nbsp;&nbsp;&nbsp;<input type="button" value="返回" name="returnPriPage" style="color: #0000FF; font-size: 12px" onClick="window.location='http://123.15.57.74/vls2s/vls3isapi.dll/lookonecourse?ptopid=3B36F0E45916486C9393268FEFE64740&amp;keid=0001'">&nbsp; &nbsp; <img border="0" src="http://123.15.57.74/images/chengji.gif" width="16" height="16"><font color="#000080">本门课程在线测试占期末总成绩的<font color="#FF0000">30分</font>，目前，你的在线测试考了<font color="#FF0000">196分</font>，折算期末成绩<font color="#FF0000">29分</font></font></td>
+                    </tr>
+                    </tbody>
+                </table> </td>
+        </tr>
+        <tr>
+            <td>
+                <table border="0" width="826" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr height="460" valign="top">
+                        <td>
+                            <table border="1" width="100%" cellspacing="0" cellpadding="2" style="border-collapse: collapse" bordercolor="#ACACAC">
+                                <tbody>
+                                <tr bgcolor="#BECCE4" align="center">
+                                    <td width="32" height="20">序号</td>
+                                    <td width="55" height="20"><font color="#000080">章编号</font></td>
+                                    <td width="34" height="20"><font color="#000080">章序号</font></td>
+                                    <td width="166" height="20"><font color="#000080">章名称</font></td>
+                                    <td width="34" height="20"><font color="#000080">测试次数</font></td>
+                                    <td width="34" height="20"><font color="#000080">最好分数</font></td>
+                                    <td width="124" height="20"><font color="#000080">最后测试日期</font></td>
+                                    <td width="228" height="20"><font color="#000080">自测题说明</font></td>
+                                    <td width="120" height="20">操作</td>
+                                </tr>
+                                <tr bgcolor="#F9F9F9">
+                                    <td width="32" height="20">1</td>
+                                    <td width="55" height="20">00010301</td>
+                                    <td width="34" height="20">1</td>
+                                    <td width="166" height="20">Unit 1 Food</td>
+                                    <td width="34" height="20">2</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/3/17 19:05:58</td>
+                                    <td width="228" height="20">每一单元自测题（Quiz）中的第一部分和第三部分，共10题。</td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010301"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#EBEBEB">
+                                    <td width="32" height="20">2</td>
+                                    <td width="55" height="20">00010302</td>
+                                    <td width="34" height="20">2</td>
+                                    <td width="166" height="20">Unit 2 Animals</td>
+                                    <td width="34" height="20">3</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/17 22:06:20</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010302"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#F9F9F9">
+                                    <td width="32" height="20">3</td>
+                                    <td width="55" height="20">00010303</td>
+                                    <td width="34" height="20">3</td>
+                                    <td width="166" height="20">Unit 3 Entertainment</td>
+                                    <td width="34" height="20">3</td>
+                                    <td width="34" height="20">19</td>
+                                    <td width="124" height="20">2019/3/21 18:34:03</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010303"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#EBEBEB">
+                                    <td width="32" height="20">4</td>
+                                    <td width="55" height="20">00010304</td>
+                                    <td width="34" height="20">4</td>
+                                    <td width="166" height="20">Unit 4 Culture</td>
+                                    <td width="34" height="20">3</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/18 1:10:42</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010304"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#F9F9F9">
+                                    <td width="32" height="20">5</td>
+                                    <td width="55" height="20">00010305</td>
+                                    <td width="34" height="20">5</td>
+                                    <td width="166" height="20">Unit 5 Learning</td>
+                                    <td width="34" height="20">3</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/18 0:25:43</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010305"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#EBEBEB">
+                                    <td width="32" height="20">6</td>
+                                    <td width="55" height="20">00010306</td>
+                                    <td width="34" height="20">6</td>
+                                    <td width="166" height="20">Unit 6 Career</td>
+                                    <td width="34" height="20">5</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/18 1:19:04</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010306"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#F9F9F9">
+                                    <td width="32" height="20">7</td>
+                                    <td width="55" height="20">00010307</td>
+                                    <td width="34" height="20">7</td>
+                                    <td width="166" height="20">Unit 7 Invention</td>
+                                    <td width="34" height="20">2</td>
+                                    <td width="34" height="20">17</td>
+                                    <td width="124" height="20">2019/5/18 1:24:36</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010307"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#EBEBEB">
+                                    <td width="32" height="20">8</td>
+                                    <td width="55" height="20">00010308</td>
+                                    <td width="34" height="20">8</td>
+                                    <td width="166" height="20">Unit 8 Crime</td>
+                                    <td width="34" height="20">3</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/18 0:04:59</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010308"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#F9F9F9">
+                                    <td width="32" height="20">9</td>
+                                    <td width="55" height="20">00010309</td>
+                                    <td width="34" height="20">9</td>
+                                    <td width="166" height="20">Unit 9 Education</td>
+                                    <td width="34" height="20">2</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/17 2:07:27</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010309"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                <tr bgcolor="#EBEBEB">
+                                    <td width="32" height="20">10</td>
+                                    <td width="55" height="20">00010310</td>
+                                    <td width="34" height="20">10</td>
+                                    <td width="166" height="20">Unit 10 Social Problem</td>
+                                    <td width="34" height="20">2</td>
+                                    <td width="34" height="20">20</td>
+                                    <td width="124" height="20">2019/5/17 23:49:37</td>
+                                    <td width="228" height="20"></td>
+                                    <td width="120" height="20" align="center"><a href="http://123.15.57.74/vls2s/vls3isapi.dll/testonce0?ptopid=3B36F0E45916486C9393268FEFE64740&amp;ruid=190257304024&amp;zhang=00010310"><font color="#0000FF">开始在线测试</font></a></td>
+                                </tr>
+                                </tbody>
+                            </table> </td>
+                    </tr>
+                    </tbody>
+                </table> </td>
+        </tr>
+        <input type="hidden" name="ruid" value="190257291029">
+        <input type="hidden" name="ptopid" value="3B36F0E45916486C9393268FEFE64740">
+        <input type="hidden" name="tts" value="銆婂ぇ瀛﹁嫳璇璉銆嬪湪绾挎祴璇�">
+        <input type="hidden" name="sid" value="190257291236">
+        <input type="hidden" name="wheres" value="BFCEB3CCBAC53D2730303031303327">
+        <input type="hidden" name="os" value="">
+        <input type="hidden" name="wheres2" value="oo;;;">
+        <input type="hidden" name="pn" value="1">
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -38,7 +38,7 @@ public class Result<T> {
         return new Result<>(false, ResultCode.BAD_REQUEST_CODE, message, null);
     }
 
-    public static <T> Result<T> success(T data) {
+    public static <T> Result<T> successful(T data) {
         return new Result<>(data);
     }
 

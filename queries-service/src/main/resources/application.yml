@@ -11,9 +11,9 @@ spring:
   application:
     name: queries-service
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://127.0.01:3306/question_bank?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    password: 1995Wang!
     driver-class-name: com.mysql.jdbc.Driver
   mail:
     host: smtp.qq.com
@@ -41,7 +41,7 @@ spring:
 
 #接收警告邮件的邮箱地址，多个逗号隔开
 alarm.email:
-  receiver: wanghongenpin@gmail.com
+  receiver: 178070584@qq.com
   #邮件发送报警间隔时间，默认300秒
   interval.time: 300
 
@@ -49,12 +49,17 @@ logging:
   level:
     root: INFO
 
+
 api:
   urls:
+    host: http://123.15.57.109
+    homepageHost: http://123.15.57.122
+    testPaperHost: http://123.15.57.74
     loginUrl: http://123.15.57.15/sss/zzjlogin.dll/login
     userInfoUrl: http://123.15.57.59/vls2s/vls3isapi.dll/personalinfo?ptopid={1}
-    subjectBankLoginUrl: http://222.22.63.178/student/wsdlLogin?ptopid=
-    subjectsUrl: http://222.22.63.178/student/courseList
-    subjectQuestionsUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
+    questionBankLoginUrl: http://222.22.63.178/student/wsdlLogin?ptopid=
+    coursesUrl: http://222.22.63.178/student/courseList
+    courseQuestionsUrl: http://222.22.63.178/student/courseSelect?studentCourseId={1}
     questionUrl: http://222.22.63.178/student/getQuestion?qId={1}&isSimulate=1
+    testPaperUrl: http://123.15.57.74/vls2s/vls3isapi.dll/testonce
 

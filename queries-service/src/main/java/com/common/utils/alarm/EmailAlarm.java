@@ -1,7 +1,7 @@
 package com.common.utils.alarm;
 
 import com.common.utils.QuestionStringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +64,7 @@ public class EmailAlarm extends BaseAlarm {
         } catch (Throwable e) {
             logger.warn(e.getMessage(), e);
         } finally {
-            logger.info("发送报警邮件 {} receiver:{};subject:{}", sendSuccess, receiver, subject, body);
+            logger.info("发送报警邮件 {} receiver:{};subject:{}", sendSuccess, receiver, subject);
         }
     }
 

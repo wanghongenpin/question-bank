@@ -1,0 +1,741 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <title></title>
+    <style>
+        TABLE {
+            FONT-FAMILY: "宋体";
+            FONT-SIZE: 9pt;
+        }
+
+        td {
+            font-family: "宋体";
+            font-size: 9pt;
+            table-layout: fixed;
+            word-break: break-all
+        }
+
+        .blue {
+            COLOR: white;
+            FONT-FAMILY: "宋体";
+            FONT-SIZE: 9pt;
+        }
+
+        A:link {
+            COLOR: black;
+            TEXT-DECORATION: none
+        }
+
+        A:visited {
+            COLOR: black;
+            TEXT-DECORATION: none
+        }
+
+        A:hover {
+            COLOR: red;
+            TEXT-DECORATION: underline
+        }
+
+        .unnamed1 {
+            font-size: 9pt;
+            text-decoration: none;
+            color: #000000
+        }
+    </style>
+    <script language=JavaScript>
+        var timeID = 0;
+        var tt1 = 3600;
+        tt2 = 0;
+        tt3 = 0;
+
+        function startTimer() {
+            timeID = setInterval("hnceTimer()", 1000);
+        }
+
+        function hnceTimer() {
+            tt1--;
+            tt2 = tt1 % 60;
+            tt3 = (tt1 - tt2) / 60;
+            if (tt2 >= 10) {
+                mytime1.innerHTML = tt3 + ":" + tt2;
+            } else {
+                mytime1.innerHTML = tt3 + ":0" + tt2
+            }
+            window.status = "剩余时间:" + mytime1.innerHTML;
+        }
+
+        document.onkeydown = function () {
+            if (event.keyCode == 116) {
+                event.keyCode = 0;
+                event.returnValue = false;
+            }
+        }
+        document.oncontextmenu = function () {
+            event.returnValue = false;
+        }
+    </script>
+</head>
+
+<body topmargin="16" bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#FF0000"
+      onLoad="startTimer()" background="http://123.15.57.122/images/main_b1.gif">
+<div align="center">
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" width="750" height="23">
+            <tr>
+                <td width="672" background="http://123.15.57.122/images/title_t2.gif">
+      <span lang="en-us">&nbsp; <font color="#FF0000">
+	<span style="font-size: 14px">《计算机应用基础》第09章在线测试</span></font></span></td>
+            </tr>
+        </table>
+    </center>
+</div>
+<div align="center">
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" width="750">
+            <tr>
+                <td height="3" bgcolor="#999999"></td>
+            </tr>
+        </table>
+    </center>
+</div>
+<div align=center>
+    <center>
+        <table border=0 cellpadding=0 cellspacing=0 width=750>
+            <tr>
+                <td width=100%>
+                    <div align=center>
+                        <table border=0 cellpadding=0 cellspacing=0 width=100%>
+                            <tr>
+                                <td width=100% bgcolor=#E6E6DF>
+                                    <div align="center">
+                                        <center>
+                                            <table border=0 cellpadding=0 cellspacing=0 width=100%>
+                                                <tr>
+                                                    <td width=100%>
+                                                        <div align="center">
+                                                            <center>
+                                                                <table border="0" cellpadding="0" cellspacing="0"
+                                                                       style="border-collapse: collapse" width="100%">
+                                                                    <tr>
+                                                                        <td width="25%" align="left" height="20">
+                                                                            <table border="0" cellpadding="0"
+                                                                                   cellspacing="0" width="100%">
+                                                                                <tr>
+                                                                                    <td width="40%">&nbsp;<font
+                                                                                            color="#008000">《计算机应用基础》第09章在线测试</font>
+                                                                                    </td>
+                                                                                    <td width="20%">
+                                                                                        <p align="right"><font
+                                                                                                color="#FF0000">剩余时间：</font>
+                                                                                    </td>
+                                                                                    <td width="20%"><font
+                                                                                            color="#FF0000">
+                                                                                        <div align="left"
+                                                                                             id="mytime1"></div>
+                                                                                    </font></td>
+                                                                                    <td width="20%">
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </center>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div align="center">
+                        <center>
+                            <table border="0" cellpadding="0" cellspacing="0" width="750">
+                                <tr>
+                                    <td height="3" bgcolor="#808080"></td>
+                                </tr>
+                            </table>
+                        </center>
+                    </div>
+    </center>
+    <div align="center">
+        <center>
+            <table border="0" cellpadding="0" cellspacing="0" width="750">
+                <tr>
+                    <td height="5">
+                        <form method="POST" action="http://123.15.57.122/vls2s/vls3isapi.dll/smpaper">
+                            <div align="center">
+                                <center>
+                                    <table border="1" cellpadding="2" cellspacing="0" style="border-collapse: collapse"
+                                           bordercolor="#808080" width="100%">
+                                        <tr>
+                                            <td width="100%" bgcolor="#EBFCFC" height="60">
+                                                <p style="line-height: 150%"><font color="#008080">&nbsp;答题须知：1、本卷满分20分。<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    2、答完题后，请一定要单击下面的“交卷”按钮交卷，否则无法记录本试卷的成绩。<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    3、在交卷之前，不要刷新本网页，否则你的答题结果将会被清空。
+                                                </font></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" bgcolor="#D1E3FC" height="20"><font color="#000080">第一题、单项选择题（每题1分，5道题共5分）</font>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" bgcolor="#F7F7F4">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td width="100%" bgcolor="#E6E6DF" height="20">&nbsp;1、下面哪一种说法是不正确的：</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="A"
+                                                                                                   name="000501091005">A、电子出版物存储容量大，一张光盘可存储几百本书
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="B"
+                                                                                                   name="000501091005">B、电子出版物可以集成文本、图形、图象、动画、视频和音频等多媒体信息
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="C"
+                                                                                                   name="000501091005">C、电子出版物不能长期保存
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="D"
+                                                                                                   name="000501091005">D、电子出版物检索快
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" bgcolor="#E6E6DF" height="20">&nbsp;2、下面＿＿＿＿属于多媒体制作软件工具。</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="A"
+                                                                                                   name="000501091006">A、Photoshop
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="B"
+                                                                                                   name="000501091006">B、Firworks
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="C"
+                                                                                                   name="000501091006">C、PhotoDraw
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="D"
+                                                                                                   name="000501091006">D、Authorware
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" bgcolor="#E6E6DF" height="20">&nbsp;3、数字音频采样和量化过程所用的主要硬件是：</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="A"
+                                                                                                   name="000501091008">A、数字编码器
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="B"
+                                                                                                   name="000501091008">B、数字解码器
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="C"
+                                                                                                   name="000501091008">C、模拟到数字的转换器（A/
+                                                                                D转换器）
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="D"
+                                                                                                   name="000501091008">D、数字到模拟的转换器（D/
+                                                                                A转换器）
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" bgcolor="#E6E6DF" height="20">&nbsp;4、下面＿＿＿＿属于三维动画制作软件工具。</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="A"
+                                                                                                   name="000501091016">A、3DS
+                                                                                MAX
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="B"
+                                                                                                   name="000501091016">B、Firworks
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="C"
+                                                                                                   name="000501091016">C、Photoshop
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="D"
+                                                                                                   name="000501091016">D、Authorware
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" bgcolor="#E6E6DF" height="20">&nbsp;5、以下＿＿＿＿不是多媒体技术的典型应用。</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="A"
+                                                                                                   name="000501091019">A、教育和培训　
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="B"
+                                                                                                   name="000501091019">B、娱乐和游戏
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="C"
+                                                                                                   name="000501091019">C、视频会议系统　
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   value="D"
+                                                                                                   name="000501091019">D、计算机支持协同工作
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" bgcolor="#D1E3FC" height="20"><font color="#000080">第二题、多项选择题（每题2分，5道题共10分）</font>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" bgcolor="#F7F7F4">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;1、多媒体一般包括以下媒体类型＿＿＿＿＿＿＿＿</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092001A"
+                                                                                                    value="A">A、文本
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092001B"
+                                                                                                    value="B">B、图像
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092001C"
+                                                                                                    value="C">C、音频
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092001D"
+                                                                                                    value="D">D、视频
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;2、下面，＿＿＿＿＿＿＿是常用的图像色彩模式</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092005A"
+                                                                                                    value="A">A、黑白图，图像颜色深度为1
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092005B"
+                                                                                                    value="B">B、索引16色图，图像颜色深度为16
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092005C"
+                                                                                                    value="C">C、真彩图，图像颜色深度为24
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092005D"
+                                                                                                    value="D">D、灰度图，图像颜色深度为8
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;3、下面＿＿＿＿＿＿是静态图像文件格式</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092007A"
+                                                                                                    value="A">A、BMP格式
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092007B"
+                                                                                                    value="B">B、TIFF格式
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092007C"
+                                                                                                    value="C">C、JPEG格式
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092007D"
+                                                                                                    value="D">D、MPEG格式
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092007E"
+                                                                                                    value="E">E、GIF格式
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;4、下面＿＿＿＿＿＿＿属于多媒体制作软件工具</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092012A"
+                                                                                                    value="A">A、Photoshop
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092012B"
+                                                                                                    value="B">B、Firworks
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092012C"
+                                                                                                    value="C">C、PhotoDraw
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092012D"
+                                                                                                    value="D">D、Authorware
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092012E"
+                                                                                                    value="E">E、Flash
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;5、下面＿＿＿＿＿＿属于音频播放软件工具</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092014A"
+                                                                                                    value="A">A、Windows
+                                                                                Media Player
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092014B"
+                                                                                                    value="B">B、GoldWave
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092014C"
+                                                                                                    value="C">C、QuickTime
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092014D"
+                                                                                                    value="D">D、Kai’s
+                                                                                Power Show
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td width="100%"><input type="checkbox"
+                                                                                                    name="000501092014E"
+                                                                                                    value="E">E、Freehand
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" bgcolor="#D1E3FC" height="20"><font color="#000080">第三题、判断题（每题1分，5道题共5分）</font>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" bgcolor="#F7F7F4">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;1、多媒体计算机通过显示卡巴视频信息输入到计算机中</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093002"
+                                                                                                   value="Y">正确
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093002"
+                                                                                                   value="N">错误
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;2、真彩色的颜色深度为1670种颜色</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093004"
+                                                                                                   value="Y">正确
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093004"
+                                                                                                   value="N">错误
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;3、SWF格式是常见的三维动画格式</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093006"
+                                                                                                   value="Y">正确
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093006"
+                                                                                                   value="N">错误
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;4、Freehand是一款静态位图图像处理软件</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093010"
+                                                                                                   value="Y">正确
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093010"
+                                                                                                   value="N">错误
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%" height="20" bgcolor="#E6E6DF">&nbsp;5、Cakewalk是目前常用的专业数字音乐编辑类软件</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="100%">
+                                                            <div align="center">
+                                                                <center>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="80%">
+                                                                        <tr>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093013"
+                                                                                                   value="Y">正确
+                                                                            </td>
+                                                                            <td width="50%"><input type="radio"
+                                                                                                   name="000501093013"
+                                                                                                   value="N">错误
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="100%" height="32">
+                                                <p align="center"><input type="submit" value=" 交卷 " name="submitpaper"
+                                                                         style="color: #FF0000; font-size: 12px"> &nbsp;
+                                                    <input type="button" value=" 返回 " name="return6"
+                                                           style="color: #0000FF; font-size: 12px"
+                                                           onClick="window.location='http://123.15.57.122/vls2s/vls3isapi.dll/regotourl?uid=170129245362&ptopid=655A067D6DBB43B1B0BD3981157BF5EE'">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </center>
+                            </div>
+                            <input type="hidden" name="ptopid" value="655A067D6DBB43B1B0BD3981157BF5EE">
+                            <input type="hidden" name="paperid" value="1910660605500050109">
+                            <input type="hidden" name="ruid" value="170129245362">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </div>
+</body>
+
+</html>

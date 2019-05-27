@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  * @author wanghongen
@@ -23,6 +24,10 @@ public class CacheService {
 
     public <T> T get(String key) {
         return (T) cacheMap.get(key);
+    }
+
+    public <T> T get(String key, Supplier<T> supplier) {
+        return (T) cacheMap.computeIfAbsent(key, k -> supplier.get());
     }
 
     public <T> T remove(String key) {

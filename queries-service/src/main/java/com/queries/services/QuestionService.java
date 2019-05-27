@@ -20,6 +20,13 @@ public interface QuestionService {
     Optional<Question> getQuestion(String id);
 
     /**
+     * 获取试题
+     *
+     * @param id ID
+     */
+    Optional<Question> getQuestion(String id, String question);
+
+    /**
      * 列表查询
      *
      * @param query 搜索条件

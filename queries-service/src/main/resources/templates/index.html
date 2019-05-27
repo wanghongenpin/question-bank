@@ -38,7 +38,7 @@
         <div class="input-group input-group-lg">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" id="current-subject-name">学科<span
+                        aria-haspopup="true" aria-expanded="false" id="current-subject-name">课程<span
                         class="caret"></span></button>
                 <ul class="dropdown-menu" id="subject-name">
                 </ul>
@@ -50,7 +50,7 @@
                 <ul class="dropdown-menu" id="question-type">
                 </ul>
             </div><!-- /btn-group -->
-            <input type="text" class="form-control" id="title" onkeydown='if(event.keyCode==13){gosubmit();}'>
+            <input type="text" class="form-control" id="question" onkeydown='if(event.keyCode==13){gosubmit();}'>
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" id="search">搜索</button>
             </span>
@@ -71,7 +71,7 @@
 
 <script type="text/javascript">
     $("#table").bootstrapTable({ // 对应table标签的id
-        url: "/queries/questions", // 获取表格数据的url
+        url: "/questions", // 获取表格数据的url
         cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
         // striped: true,//设置为 true 会有隔行变色效果
         pagination: true, // 在表格底部显示分页组件，默认false
@@ -95,7 +95,7 @@
             };
         },
         queryParams: function (params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
-            var title = $("#title").val();
+            var question = $("#question").val();
             var subjectName = $("#current-subject-name").text();
             var questionType = $("#current-question-type").text();
 
@@ -105,11 +105,11 @@
 
             }
 
-            if (title.trim() != "") {
-                param['title'] = title.trim();
+            if (question.trim() != "") {
+                param['question'] = question.trim();
             }
-            if (subjectName != "学科") {
-                param['subject'] = subjectName.trim();
+            if (subjectName != "课程") {
+                param['course'] = subjectName.trim();
             }
             if (questionType.trim() != "试题类型") {
                 param['questionType'] = questionType.trim();
@@ -118,8 +118,8 @@
         },
         columns: [
             {
-                field: 'ownerSubject', // 返回json数据中的name
-                title: '学科',// 表格表头显示文字
+                field: 'course', // 返回json数据中的name
+                title: '课程',// 表格表头显示文字
                 align: 'center' // 居中显示
 
             }, {
@@ -127,7 +127,7 @@
                 title: '试题类型',
                 align: 'center' // 居中显示
             }, {
-                field: 'title',
+                field: 'question',
                 title: '问题',
                 align: 'center' // 居中显示
 
@@ -169,7 +169,7 @@
 
 
             $.ajax({
-                url: "/queries/users/upload",
+                url: "/questions/users/upload",
                 data: {username: username, password: password},
                 method: "post",
                 dataType: "json",
@@ -196,7 +196,7 @@
         });
 
         $.ajax({
-            url: "/queries/subjects/names",
+            url: "/questions/courses/names",
             dataType: "json",
             success: function (data) {
                 $("#subject-name").prepend('<li><a href=\"#\">学科</a></li>');
@@ -211,7 +211,7 @@
         });
 
         $.ajax({
-            url: "/queries/questions/types",
+            url: "/questions/types",
             dataType: "json",
             success: function (data) {
                 $("#question-type").prepend('<li><a href=\"#\">试题类型</a></li>');
@@ -227,10 +227,9 @@
 
 
         $("#search").on('click', function () {
-            // var title = $("#title").val();
             $("#table").bootstrapTable('refresh', {pageNumber: 1});
         })
-        $("#title").keydown(function (event) {
+        $("#question").keydown(function (event) {
             //回车搜索
             if (event.keyCode == 13) {
                 $("#table").bootstrapTable('refresh', {pageNumber: 1});
