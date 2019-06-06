@@ -25,6 +25,7 @@
                 <div class="form-group">
                     <input type="password" placeholder="Password" id="password" autocomplete="off" class="form-control">
                 </div>
+                <button type="submit" class="btn btn-success" id="online-test-paper">自动答题</button>
                 <button type="submit" class="btn btn-success" id="upload-question">上传你的题库</button>
             </div>
         </div><!--/.navbar-collapse -->
@@ -194,6 +195,51 @@
                 }
             })
         });
+
+        $("#online-test-paper").on("click", function () {
+            var _this = $(this);
+            $(this).attr("disabled", true);//禁用按钮并显示提交中
+
+            var username = $("#username").val();
+            var password = $("#password").val()
+            if (username.trim() == "" || password.trim() == "") {
+                if ($("div.alert-warning").length <= 0) {
+                    $(".jumbotron").prepend('<div class="alert alert-warning alert-dismissible" role="alert">' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                        '<strong></strong>用户名和密码不能为空' +
+                        '</div>');
+                }
+                _this.removeAttr("disabled");//重置按钮
+                return
+            }
+
+
+            $.ajax({
+                url: "/questions/users/online_test_paper",
+                data: {username: username, password: password},
+                method: "post",
+                dataType: "json",
+                success: function (data) {
+                    _this.removeAttr("disabled");//重置按钮
+                    if (data.success) {
+                        if ($("div.alert-success").length <= 0) {
+                            $(".jumbotron").prepend('<div class="alert alert-success alert-dismissible" role="alert">' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                                '<strong></strong>' + data.data +
+                                '</div>');
+                        }
+                    } else {
+                        if ($("div.alert-danger").length <= 0) {
+                            $(".jumbotron").prepend('<div class="alert alert-danger alert-dismissible" role="alert">' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                                '<strong></strong>' + data.message +
+                                '</div>');
+                        }
+                    }
+
+                }
+            })
+        })
 
         $.ajax({
             url: "/questions/courses/names",

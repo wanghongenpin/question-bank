@@ -57,7 +57,7 @@ public class UserController {
                         //线程池拒绝
                         return Result.fail(QueriesServiceException.RejectedExecutionException.build());
                     }
-                    return Result.successful("登录成功,正在爬取题库");
+                    return Result.successful("登录成功,正在自动答题");
                 }
         );
     }
