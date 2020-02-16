@@ -163,7 +163,7 @@ public class Crawling {
     }
 
 
-    private void crawlingTestPaper(String username, String course, TestPaper testPaper) {
+    public void crawlingTestPaper(String username, String course, TestPaper testPaper) {
         crawlingTestPaper(username, course, testPaper.getToken(), testPaper.getPaperId(), testPaper.getRuid());
     }
 

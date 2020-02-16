@@ -271,7 +271,17 @@ public class HtmlParse {
     private List<Problem> getProblems(Elements singleChoice, String title, ProblemType problemType) {
         List<Problem> problems = new ArrayList<>();
         for (int i = 0; i < singleChoice.size(); i += 2) {
-            final String question = singleChoice.get(i).select("tr td").text();
+            String question = singleChoice.get(i).select("tr td").text().substring(2);
+            for (int j = 1; j <= 5; j++) {
+                if (question.startsWith(j + ".") || question.startsWith(j + "．")) {
+                    question = question.substring(2).trim();
+                }
+            }
+            if (question.endsWith("（ ）。") || question.endsWith("（ ）") || question.endsWith("( )")) {
+                question = StringUtils.substringBeforeLast(question, "（ ）").trim();
+                question = StringUtils.substringBeforeLast(question, "( )").trim();
+            }
+
             final List<Answer> answerList = singleChoice.get(i + 1).select("input")
                     .stream()
                     .map(e -> {
@@ -288,7 +298,7 @@ public class HtmlParse {
             //如果回答为空，代表无需答题
             if (!answerList.isEmpty()) {
                 final Answer answer = answerList.get(0);
-                final Problem problem = Problem.builder().id(answer.getQuestionId()).question(StringUtils.substringAfter(question, "、"))
+                final Problem problem = Problem.builder().id(answer.getQuestionId()).question(question)
                         .title(title).type(problemType.getLabel()).answers(answerList).build();
                 problems.add(problem);
             }

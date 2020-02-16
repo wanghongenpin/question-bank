@@ -47,7 +47,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private Optional<Question> getByQuestion(String question) {
-        return questionRepository.findFirstByQuestion(question).map(q -> {
+        return questionRepository.findFirstByQuestionContains(question).map(q -> {
             final List<Answer> answers = answerService.findAnswerByQuestionId(q.getId());
             q.setAnswers(answers);
             return q;

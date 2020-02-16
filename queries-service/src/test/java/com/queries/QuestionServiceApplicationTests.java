@@ -2,7 +2,9 @@ package com.queries;
 
 import com.common.utils.MD5;
 import com.queries.api.ApiService;
+import com.queries.models.Question;
 import com.queries.parses.HtmlParse;
+import com.queries.request.QuestionQuery;
 import com.queries.services.CourseService;
 import com.queries.services.QuestionService;
 import com.queries.services.UserService;
@@ -10,9 +12,11 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -40,6 +44,28 @@ public class QuestionServiceApplicationTests {
 
     @Test
     public void contextLoads() throws InterruptedException {
+        final QuestionQuery questionQuery = new QuestionQuery();
+        questionQuery.setQuestionType("判断题");
+
+        questionQuery.setSize(500);
+        for (int page = 8; ; page++) {
+            questionQuery.setPage(page);
+            final Page<Question> list = questionService.list(questionQuery);
+            final ArrayList<Question> questions = new ArrayList<>(500);
+            list.getContent().forEach(question -> apiService.getQuestion(question.getId(), "zdyj2web=B65312F7DA758D8D98DBE8AEE821BDBA")
+                    .run(e -> {
+                    }, right -> {
+                        right.setCourse(question.getCourse());
+                        right.setType(question.getType());
+                        right.setCreatedUsername(question.getCreatedUsername());
+                        questions.add(right);
+
+                    }));
+            questionService.batchSaveQuestion(questions);
+            if (list.getTotalPages() < page) {
+                break;
+            }
+        }
 //        User user = userService.getUser("16212116009").get();
 //        System.out.println(user);
 //        Either<ApiException, String> apiExceptionStringEither = apiService.courseBankLogin("3C258E57F9DB4362A4C07ED135FF911B&");
