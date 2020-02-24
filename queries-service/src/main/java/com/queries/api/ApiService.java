@@ -15,12 +15,14 @@ import com.queries.parses.LearningCourses;
 import com.queries.parses.TestPaperResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -70,12 +72,14 @@ public class ApiService {
      *
      * @param token TOKEN
      */
+    @Retryable(IOException.class)
     public List<LearningCourses> learningCourses(String token) {
         final String url = configuration.getHomepageHost() + "/vls5s/vls3isapi2.dll/getfirstpage?ptopid=" + token;
         final String homepageHtml = restTemplate.getForObject(url, String.class);
         return parse.parseLearningCourses(homepageHtml);
     }
 
+    @Retryable(IOException.class)
     public Optional<User> getUserInfo(String token) {
         return parse.parseUser(restTemplate.getForObject(configuration.getUserInfoUrl(), String.class, token));
     }
@@ -105,6 +109,7 @@ public class ApiService {
         }).get();
     }
 
+    @Retryable(IOException.class)
     public Set<Course> getCourses(String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
@@ -113,6 +118,7 @@ public class ApiService {
         return parse.parseSubjectList(responseEntity.getBody());
     }
 
+    @Retryable(IOException.class)
     public List<JSONObject> getCourseQuestions(String id, String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
@@ -121,6 +127,7 @@ public class ApiService {
         return parse.parseQuestions(responseEntity.getBody());
     }
 
+    @Retryable(IOException.class)
     public Either<RestApiException, Question> getQuestion(String id, String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
@@ -136,6 +143,7 @@ public class ApiService {
     /**
      * 获取试题问题
      */
+    @Retryable(IOException.class)
     public List<Problem> getTestPaper(String token, String id, String ruid) {
         //进入开始测试  貌似没什么用
 //        final String url = configuration.getHomepageHost() + "/vls2s/vls3isapi.dll/testonce0?ptopid=" + token + "&ruid=" + ruid + "&zhang=" + id;

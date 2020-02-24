@@ -24,7 +24,7 @@ public interface QuestionService {
      *
      * @param id ID
      */
-    Optional<Question> getQuestion(String id, String question);
+    Optional<Question> getQuestion(String id, String question, String typeDescribe);
 
     /**
      * 列表查询

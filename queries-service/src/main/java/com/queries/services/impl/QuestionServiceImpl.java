@@ -41,13 +41,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Optional<Question> getQuestion(String id, String question) {
+    public Optional<Question> getQuestion(String id, String question, String typeDescribe) {
         final Optional<Question> optionalQuestion = getQuestion(id);
-        return optionalQuestion.isPresent() ? optionalQuestion : getByQuestion(question);
+        return optionalQuestion.isPresent() ? optionalQuestion : getByQuestion(question, typeDescribe);
     }
 
-    private Optional<Question> getByQuestion(String question) {
-        return questionRepository.findFirstByQuestionContains(question).map(q -> {
+    private Optional<Question> getByQuestion(String question, String typeDescribe) {
+        return questionRepository.findFirstByQuestionContainsAndTypeDescribe(question, typeDescribe).map(q -> {
             final List<Answer> answers = answerService.findAnswerByQuestionId(q.getId());
             q.setAnswers(answers);
             return q;

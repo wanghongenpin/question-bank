@@ -61,7 +61,7 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public Optional<Problem> getProblem(String id) {
         return problemRepository.findById(id).map(problem -> {
-            final List<Answer> answers = answerService.findAnswerByQuestionId(problem.getId());
+            final List<Answer> answers = answerService.findAnswerByQuestionId(id);
             problem.setAnswers(answers);
             return problem;
         });

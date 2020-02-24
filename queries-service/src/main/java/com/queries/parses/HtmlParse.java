@@ -277,9 +277,10 @@ public class HtmlParse {
                     question = question.substring(2).trim();
                 }
             }
-            if (question.endsWith("（ ）。") || question.endsWith("（ ）") || question.endsWith("( )")) {
+            if (question.endsWith("（ ）。") || question.endsWith("（ ）") || question.endsWith("( )")||question.endsWith("( )。")) {
                 question = StringUtils.substringBeforeLast(question, "（ ）").trim();
                 question = StringUtils.substringBeforeLast(question, "( )").trim();
+                question = StringUtils.substringBeforeLast(question, "( )。").trim();
             }
 
             final List<Answer> answerList = singleChoice.get(i + 1).select("input")

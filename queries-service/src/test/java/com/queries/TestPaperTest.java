@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wanghongen
@@ -19,14 +20,23 @@ public class TestPaperTest {
     private Crawling crawling;
 
     @Test
-    public void test() {
-        TestPaper testPaper = TestPaper.builder().token("0275F9D9751E405289CF5EB54006DBBB")
-                .chapterName("计算机网络概述")
-                .chapterSerialNumber("08020301")
-                .paperId("08020301")
-                .ruid("162352201455")
+    public void test0() throws InterruptedException {
+//        TestPaper testPaper = TestPaper.builder().token("BAFF14286AB64BA092B3E2F686505185")
+//                .chapterName("数据处理")
+//                .chapterSerialNumber("08180302")
+//                .paperId("08180302")
+//                .ruid("170232399298")
+//                .build();
+//        crawling.crawlingTestPaper("19106606055","微机原理及接口技术",testPaper);
+//        TimeUnit.MINUTES.sleep(3L);
+        TestPaper testPaper = TestPaper.builder().token("BAFF14286AB64BA092B3E2F686505185")
+                .chapterName("物理层")
+                .chapterSerialNumber("08020302")
+                .paperId("08020302")
+                .ruid("170231056163")
                 .build();
         crawling.crawlingTestPaper("19106606055","计算机网络(计算机)",testPaper);
+        TimeUnit.MINUTES.sleep(3L);
     }
 
 

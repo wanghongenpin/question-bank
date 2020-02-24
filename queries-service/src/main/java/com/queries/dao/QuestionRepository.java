@@ -15,7 +15,7 @@ public interface QuestionRepository extends JpaRepository<Question, String> {
     @Query("select distinct typeDescribe from Question")
     List<String> getAllQuestionType();
 
-    Optional<Question> findFirstByQuestionContains(String question);
+    Optional<Question> findFirstByQuestionContainsAndTypeDescribe(String question, String typeDescribe);
 
 
 }

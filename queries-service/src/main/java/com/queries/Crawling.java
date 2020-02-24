@@ -177,7 +177,7 @@ public class Crawling {
         final Map<String, String> collect = problems.stream()
                 .map(problem -> {
                     final String id = problem.getId();
-                    return questionService.getQuestion(id, problem.getQuestion())
+                    return questionService.getQuestion(id, problem.getQuestion(), problem.getType())
                             .filter(it -> StringUtils.isNotBlank(it.getAnswer()))
                             .map(Either::<RestApiException, Question>right)
                             .orElseGet(() -> crawlingQuestion(id, username, course, sessionId).fold(e -> {
