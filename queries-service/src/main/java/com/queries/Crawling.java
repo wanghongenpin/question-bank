@@ -167,7 +167,11 @@ public class Crawling {
         crawlingTestPaper(username, course, testPaper.getToken(), testPaper.getPaperId(), testPaper.getRuid());
     }
 
+    /**
+     * 爬取在线测试
+     */
     void crawlingTestPaper(String username, String course, String token, String paperId, String ruid) {
+
         final List<Problem> problems = apiService.getTestPaper(token, paperId, ruid);
         String sessionId = cacheService.get(username, () -> {
             final Either<ApiException, String> apiExceptionStringEither = apiService.questionBankLogin(token);
@@ -176,49 +180,18 @@ public class Crawling {
 
         final Map<String, String> collect = problems.stream()
                 .map(problem -> {
+
                     final String id = problem.getId();
+                    problem.setCreateUsername(username);
+                    problem.setCourse(course);
+
                     return questionService.getQuestion(id, problem.getQuestion(), problem.getType())
                             .filter(it -> StringUtils.isNotBlank(it.getAnswer()))
-                            .map(Either::<RestApiException, Question>right)
-                            .orElseGet(() -> crawlingQuestion(id, username, course, sessionId).fold(e -> {
-                                        log.info("爬取试题失败, 保存问题记录 [id:{}, title:{}, question:{}]", id, problem.getTitle(), problem.getQuestion());
-                                        //爬取失败 判断问题是否回答 保存问题
-                                        problem.setCreateUsername(username);
-                                        problem.setCourse(course);
-                                        final Problem p = problemService.getProblemOrCreate(problem);
-                                        if (p.getStatus().equals(ProblemStatus.SUBMITTED.getStatus())) {
-                                            final Question question = new Question();
-                                            final Optional<Answer> answer = p.getAnswers().stream().filter(Answer::isAnswerRight).findAny();
-                                            question.setId(p.getId());
-                                            question.setAnswers(p.getAnswers());
-                                            question.setAnswer(answer.map(Answer::getAnswer).orElse(null));
-                                            return Either.<RestApiException, Question>right(question);
-                                        }
-                                        return Either.left(e);
-                                    }, Either::right)
-                            ).fold(e -> Collections.<String, String>emptyMap(), question -> {
-                                //多选题
-                                if (ProblemType.MULTIPLE_CHOICE.getLabel().equals(problem.getType())) {
-                                    final Set<String> answers = question.getAnswers()
-                                            .stream()
-                                            .filter(Answer::isAnswerRight)
-                                            .map(answer -> answer.getAnswer().replaceAll("，", ","))
-                                            .collect(Collectors.toSet());
-
-                                    return problem.getAnswers().stream()
-                                            .filter(answer -> answers.contains(answer.getAnswer().replace("，", ",")))
-                                            .collect(toMap(answer -> id + answer.getSymbol(), Answer::getSymbol));
-                                }
-
-                                return problem.getAnswers().stream()
-                                        .filter(answer -> question.getAnswer().equals(answer.getAnswer().trim()))
-                                        .findAny().map(answer -> Collections.singletonMap(id, answer.getSymbol()))
-                                        .orElseGet(() -> {
-                                            final Set<String> answerSet = problem.getAnswers().stream().map(Answer::getAnswer).collect(Collectors.toSet());
-                                            log.warn("匹配答案失败 [{}, question:{}, answer:{}, problemAnswers:{}]", id, problem.getQuestion(), question.getAnswer(), answerSet);
-                                            return Collections.emptyMap();
-                                        });
-                            });
+                            .map(Either::<Exception, Question>right)
+                            .orElseGet(() ->
+                                    crawlingQuestion(id, username, course, sessionId)
+                                            .fold(e -> getProblemOrCreate(problem), Either::right)
+                            ).fold(e -> Collections.<String, String>emptyMap(), question -> matchAnswer(problem, question));
                 })
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
@@ -226,6 +199,54 @@ public class Crawling {
 
         //提交试题
         apiService.submitTestPaper(token, username + paperId, ruid, collect, paperResult -> paperResultHandle(paperResult, paperId, problems, collect));
+    }
+
+    /**
+     * 匹配答案
+     */
+    private Map<String, String> matchAnswer(Problem problem, Question question) {
+        String id = problem.getId();
+        //多选题
+        if (ProblemType.MULTIPLE_CHOICE.getLabel().equals(problem.getType())) {
+            final Set<String> answers = question.getAnswers()
+                    .stream()
+                    .filter(Answer::isAnswerRight)
+                    .map(answer -> answer.getAnswer().replaceAll("，", ","))
+                    .collect(Collectors.toSet());
+
+            return problem.getAnswers().stream()
+                    .filter(answer -> answers.contains(answer.getAnswer().replace("，", ",")))
+                    .collect(toMap(answer -> id + answer.getSymbol(), Answer::getSymbol));
+        }
+
+        return problem.getAnswers().stream()
+                .filter(answer -> question.getAnswer().equals(answer.getAnswer().trim()))
+                .findAny().map(answer -> Collections.singletonMap(id, answer.getSymbol()))
+                .orElseGet(() -> {
+                    final Set<String> answerSet = problem.getAnswers().stream().map(Answer::getAnswer).collect(Collectors.toSet());
+                    log.warn("匹配答案失败 [{}, question:{}, answer:{}, problemAnswers:{}]", id, problem.getQuestion(), question.getAnswer(), answerSet);
+                    return Collections.emptyMap();
+                });
+    }
+
+    /**
+     * 查询或创建问题
+     */
+    private Either<Exception, Question> getProblemOrCreate(Problem problem) {
+        String id = problem.getId();
+        log.info("爬取试题失败, 保存问题记录 [id:{}, title:{}, question:{}]", id, problem.getTitle(), problem.getQuestion());
+        //爬取失败 判断问题是否回答 保存问题
+
+        final Problem p = problemService.getProblemOrCreate(problem);
+        if (p.getStatus().equals(ProblemStatus.SUBMITTED.getStatus())) {
+            final Question question = new Question();
+            final Optional<Answer> answer = p.getAnswers().stream().filter(Answer::isAnswerRight).findAny();
+            question.setId(p.getId());
+            question.setAnswers(p.getAnswers());
+            question.setAnswer(answer.map(Answer::getAnswer).orElse(null));
+            return Either.right(question);
+        }
+        return Either.left(new Exception());
     }
 
 

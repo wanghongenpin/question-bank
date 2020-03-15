@@ -52,7 +52,9 @@ public class ApiService {
     //提交答案需要延迟2分钟
     private static final ScheduledExecutorService SCHEDULED_EXECUTOR = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
-
+    /**
+     * 登陆获取token
+     */
     public Optional<String> login(String username, String password) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -113,7 +115,7 @@ public class ApiService {
     public Set<Course> getCourses(String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
         final ResponseEntity<String> responseEntity = restTemplate.exchange(configuration.getCoursesUrl(), HttpMethod.GET, entity, String.class);
         return parse.parseSubjectList(responseEntity.getBody());
     }
@@ -122,7 +124,7 @@ public class ApiService {
     public List<JSONObject> getCourseQuestions(String id, String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
         final ResponseEntity<String> responseEntity = restTemplate.exchange(configuration.getCourseQuestionsUrl(), HttpMethod.GET, entity, String.class, id);
         return parse.parseQuestions(responseEntity.getBody());
     }
@@ -131,7 +133,7 @@ public class ApiService {
     public Either<RestApiException, Question> getQuestion(String id, String cookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.COOKIE, cookie);
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
         final ResponseEntity<String> responseEntity = restTemplate.exchange(configuration.getQuestionUrl(), HttpMethod.GET, entity, String.class, id);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return Either.right(parse.parseQuestion(responseEntity.getBody()));

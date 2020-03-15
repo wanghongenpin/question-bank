@@ -29,7 +29,7 @@ public class TestPaperTest {
 //                .build();
 //        crawling.crawlingTestPaper("19106606055","微机原理及接口技术",testPaper);
 //        TimeUnit.MINUTES.sleep(3L);
-        TestPaper testPaper = TestPaper.builder().token("BAFF14286AB64BA092B3E2F686505185")
+        TestPaper testPaper = TestPaper.builder().token("D16E6172E07947BD8877EE52BED45DEB")
                 .chapterName("物理层")
                 .chapterSerialNumber("08020302")
                 .paperId("08020302")
